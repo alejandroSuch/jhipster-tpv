@@ -1,4 +1,4 @@
-# tpv (https://travis-ci.org/alejandroSuch/jhipster-tpv.svg?branch=develop)
+# tpv ![](https://travis-ci.org/alejandroSuch/jhipster-tpv.svg?branch=develop)
 
 This application was generated using JHipster, you can find documentation and help at [https://jhipster.github.io](https://jhipster.github.io).
 
