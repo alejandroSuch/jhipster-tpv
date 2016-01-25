@@ -1,0 +1,22 @@
+{
+  "generator-jhipster": {
+    "baseName": "tpv",
+    "packageName": "such.alex.tpv",
+    "packageFolder": "such/alex/tpv",
+    "authenticationType": "xauth",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "elasticsearch",
+    "useSass": true,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "enableTranslation": true,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "53a6177e0f7083ed222cc616cf8bf8720da02d05",
+    "testFrameworks": []
+  }
+}
