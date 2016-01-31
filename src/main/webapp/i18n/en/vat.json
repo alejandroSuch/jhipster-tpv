@@ -1,0 +1,24 @@
+{
+    "tpvApp": {
+        "vat" : {
+            "home": {
+                "title": "Vats",
+                "createLabel": "Create a new Vat",
+                "createOrEditLabel": "Create or edit a Vat",
+                "search": "Search for Vat"
+            },
+            "created": "A new Vat is created with identifier {{ param }}",
+            "updated": "A Vat is updated with identifier {{ param }}",
+            "deleted": "A Vat is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Vat {{ id }}?"
+            },
+            "detail": {
+                "title": "Vat"
+            },
+            "code": "Code",
+            "description": "Description",
+            "value": "Value"
+        }
+    }
+}
