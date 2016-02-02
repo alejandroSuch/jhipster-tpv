@@ -8,6 +8,7 @@
             "entities": {
                 "main": "Entités",
                 "vat": "Vat",
+                "category": "Category",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

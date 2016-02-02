@@ -1,8 +1,12 @@
 package such.alex.tpv.web.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import such.alex.tpv.Application;
+import such.alex.tpv.domain.Category;
 import such.alex.tpv.domain.Vat;
+import such.alex.tpv.repository.CategoryRepository;
 import such.alex.tpv.repository.VatRepository;
+import such.alex.tpv.service.CategoryService;
 import such.alex.tpv.service.VatService;
 
 import org.junit.Before;
@@ -56,6 +60,12 @@ public class VatResourceIntTest {
     @Inject
     private VatService vatService;
 
+    @Autowired
+    CategoryService categoryService;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -65,6 +75,8 @@ public class VatResourceIntTest {
     private MockMvc restVatMockMvc;
 
     private Vat vat;
+
+    private Category category;
 
     @PostConstruct
     public void setup() {
@@ -82,6 +94,10 @@ public class VatResourceIntTest {
         vat.setCode(DEFAULT_CODE);
         vat.setDescription(DEFAULT_DESCRIPTION);
         vat.setValue(DEFAULT_VALUE);
+
+        category = new Category();
+        category.setName("CAT1");
+        category.setDescription("CAT1");
     }
 
     @Test
@@ -248,6 +264,21 @@ public class VatResourceIntTest {
     @Transactional
     public void checkThatClonesOnUpdate() {
         vatRepository.saveAndFlush(vat);
+
+        vat.setDescription("Changed Description");
+
+        Vat newVat = vatRepository.saveWithHistoric(vat);
+
+        assertThat(vat.getId()).isNotEqualTo(newVat.getId());
+    }
+
+    @Test
+    @Transactional
+    public void checkThatClonesOnUpdateAndCategoryChangesItsVat() {
+        vatRepository.saveAndFlush(vat);
+        category.setVat(vat);
+
+        categoryRepository.saveAndFlush(category);
 
         vat.setDescription("Changed Description");
 

@@ -1,20 +1,24 @@
 package such.alex.tpv.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import reactor.bus.Event;
+import reactor.bus.EventBus;
+import reactor.fn.tuple.Tuple;
+import reactor.fn.tuple.Tuple2;
 import such.alex.tpv.domain.Vat;
 import such.alex.tpv.repository.VatRepository;
 import such.alex.tpv.repository.search.VatSearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.stereotype.Service;
+import such.alex.tpv.service.util.Constants;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing Vat.
@@ -24,13 +28,16 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class VatService {
 
     private final Logger log = LoggerFactory.getLogger(VatService.class);
-    
+
     @Inject
     private VatRepository vatRepository;
-    
+
     @Inject
     private VatSearchRepository vatSearchRepository;
-    
+
+    @Inject
+    EventBus eventBus;
+
     /**
      * Save a vat.
      * @return the persisted entity
@@ -39,6 +46,9 @@ public class VatService {
         log.debug("Request to save Vat : {}", vat);
         Vat result = vatRepository.save(vat);
         vatSearchRepository.save(result);
+
+        eventBus.notify(Constants.VAT_UPDATED, Event.wrap(Tuple.of(vat, result)));
+
         return result;
     }
 
@@ -46,7 +56,7 @@ public class VatService {
      *  get all the vats.
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<Vat> findAll() {
         log.debug("Request to get all Vats");
         List<Vat> result = vatRepository.findAll();
@@ -57,7 +67,7 @@ public class VatService {
      *  get one vat by id.
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Vat findOne(Long id) {
         log.debug("Request to get Vat : {}", id);
         Vat vat = vatRepository.findOne(id);
@@ -77,9 +87,9 @@ public class VatService {
      * search for the vat corresponding
      * to the query.
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<Vat> search(String query) {
-        
+
         log.debug("REST request to search Vats for query {}", query);
         return StreamSupport
             .stream(vatSearchRepository.search(queryStringQuery(query)).spliterator(), false)
