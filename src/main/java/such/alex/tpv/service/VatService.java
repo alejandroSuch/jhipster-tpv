@@ -47,6 +47,17 @@ public class VatService {
         Vat result = vatRepository.save(vat);
         vatSearchRepository.save(result);
 
+        final Tuple2<Vat, Vat> tuple = Tuple.of(vat, result);
+        eventBus.notify(Constants.VAT_UPDATED, Event.wrap(tuple));
+
+        return result;
+    }
+
+    public Vat saveWithHistoric(Vat vat) {
+        log.debug("Request to save Vat : {}", vat);
+        Vat result = vatRepository.saveWithHistoric(vat);
+        vatSearchRepository.save(result);
+
         eventBus.notify(Constants.VAT_UPDATED, Event.wrap(Tuple.of(vat, result)));
 
         return result;
