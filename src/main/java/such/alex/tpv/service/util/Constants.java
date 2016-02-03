@@ -5,4 +5,7 @@ package such.alex.tpv.service.util;
  */
 public class Constants {
     public static final String VAT_UPDATED = "vat.updated";
+    public static final String CATEGORIES_UPDATED = "categories.updated";
+
+
 }
