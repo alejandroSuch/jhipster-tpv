@@ -1,6 +1,14 @@
 package such.alex.tpv.web.rest;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.transaction.annotation.Propagation;
+import reactor.bus.Event;
+import reactor.bus.EventBus;
+import reactor.bus.selector.Selector;
+import reactor.bus.selector.Selectors;
+import reactor.fn.Consumer;
 import such.alex.tpv.Application;
 import such.alex.tpv.domain.Category;
 import such.alex.tpv.domain.Vat;
@@ -12,7 +20,9 @@ import such.alex.tpv.service.VatService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import static org.hamcrest.Matchers.hasItem;
+
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -25,10 +35,15 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import such.alex.tpv.service.util.Constants;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -66,6 +81,10 @@ public class VatResourceIntTest {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
+
     @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -77,6 +96,9 @@ public class VatResourceIntTest {
     private Vat vat;
 
     private Category category;
+
+    @Inject
+    EventBus eventBus;
 
     @PostConstruct
     public void setup() {
@@ -108,9 +130,9 @@ public class VatResourceIntTest {
         // Create the Vat
 
         restVatMockMvc.perform(post("/api/vats")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(vat)))
-                .andExpect(status().isCreated());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(vat)))
+            .andExpect(status().isCreated());
 
         // Validate the Vat in the database
         List<Vat> vats = vatRepository.findAll();
@@ -131,9 +153,9 @@ public class VatResourceIntTest {
         // Create the Vat, which fails.
 
         restVatMockMvc.perform(post("/api/vats")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(vat)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(vat)))
+            .andExpect(status().isBadRequest());
 
         List<Vat> vats = vatRepository.findAll();
         assertThat(vats).hasSize(databaseSizeBeforeTest);
@@ -149,9 +171,9 @@ public class VatResourceIntTest {
         // Create the Vat, which fails.
 
         restVatMockMvc.perform(post("/api/vats")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(vat)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(vat)))
+            .andExpect(status().isBadRequest());
 
         List<Vat> vats = vatRepository.findAll();
         assertThat(vats).hasSize(databaseSizeBeforeTest);
@@ -167,9 +189,9 @@ public class VatResourceIntTest {
         // Create the Vat, which fails.
 
         restVatMockMvc.perform(post("/api/vats")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(vat)))
-                .andExpect(status().isBadRequest());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(vat)))
+            .andExpect(status().isBadRequest());
 
         List<Vat> vats = vatRepository.findAll();
         assertThat(vats).hasSize(databaseSizeBeforeTest);
@@ -183,12 +205,12 @@ public class VatResourceIntTest {
 
         // Get all the vats
         restVatMockMvc.perform(get("/api/vats?sort=id,desc"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(vat.getId().intValue())))
-                .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
-                .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-                .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.doubleValue())));
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(vat.getId().intValue())))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.doubleValue())));
     }
 
     @Test
@@ -212,7 +234,7 @@ public class VatResourceIntTest {
     public void getNonExistingVat() throws Exception {
         // Get the vat
         restVatMockMvc.perform(get("/api/vats/{id}", Long.MAX_VALUE))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     @Test
@@ -221,7 +243,7 @@ public class VatResourceIntTest {
         // Initialize the database
         vatRepository.saveAndFlush(vat);
 
-		int databaseSizeBeforeUpdate = vatRepository.findAll().size();
+        int databaseSizeBeforeUpdate = vatRepository.findAll().size();
 
         // Update the vat
         vat.setCode(UPDATED_CODE);
@@ -229,9 +251,9 @@ public class VatResourceIntTest {
         vat.setValue(UPDATED_VALUE);
 
         restVatMockMvc.perform(put("/api/vats")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(vat)))
-                .andExpect(status().isOk());
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(vat)))
+            .andExpect(status().isOk());
 
         // Validate the Vat in the database
         List<Vat> vats = vatRepository.findAll();
@@ -248,12 +270,12 @@ public class VatResourceIntTest {
         // Initialize the database
         vatRepository.saveAndFlush(vat);
 
-		int databaseSizeBeforeDelete = vatRepository.findAll().size();
+        int databaseSizeBeforeDelete = vatRepository.findAll().size();
 
         // Get the vat
         restVatMockMvc.perform(delete("/api/vats/{id}", vat.getId())
-                .accept(TestUtil.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
 
         // Validate the database is empty
         List<Vat> vats = vatRepository.findAll();
@@ -273,8 +295,11 @@ public class VatResourceIntTest {
     }
 
     @Test
+    @AllowConcurrentEvents
     @Transactional
     public void checkThatClonesOnUpdateAndCategoryChangesItsVat() {
+        final CountDownLatch latch = new CountDownLatch(1);
+
         vatRepository.saveAndFlush(vat);
         category.setVat(vat);
 
@@ -282,8 +307,25 @@ public class VatResourceIntTest {
 
         vat.setDescription("Changed Description");
 
-        Vat newVat = vatRepository.saveWithHistoric(vat);
+        eventBus.on(Selectors.$(Constants.CATEGORIES_UPDATED), new Consumer<Event<List<Category>>>() {
+            @Override
+            public void accept(Event<List<Category>>event) {
+                latch.countDown();
+            }
+        });
+
+        Vat newVat = vatService.saveWithHistoric(vat);
 
         assertThat(vat.getId()).isNotEqualTo(newVat.getId());
+
+
+        try {
+            latch.await(20, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //final Category categoryFromDb = categoryService.findOne(category.getId());
+        //assertThat(newVat.getId()).isEqualTo(categoryFromDb.getVat().getId());
     }
 }
