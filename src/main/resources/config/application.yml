@@ -17,6 +17,8 @@ spring:
         hibernate:
             ddl-auto: none
             naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+            show_sql: true
+            format_sql: true
     messages:
         basename: classpath:/i18n/messages
     mvc:
