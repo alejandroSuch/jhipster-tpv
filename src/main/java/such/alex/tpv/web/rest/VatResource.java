@@ -31,10 +31,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class VatResource {
 
     private final Logger log = LoggerFactory.getLogger(VatResource.class);
-        
+
     @Inject
     private VatService vatService;
-    
+
     /**
      * POST  /vats -> Create a new vat.
      */
@@ -47,7 +47,7 @@ public class VatResource {
         if (vat.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("vat", "idexists", "A new vat cannot already have an ID")).body(null);
         }
-        Vat result = vatService.save(vat);
+        Vat result = vatService.saveWithHistoric(vat);
         return ResponseEntity.created(new URI("/api/vats/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("vat", result.getId().toString()))
             .body(result);
@@ -65,7 +65,7 @@ public class VatResource {
         if (vat.getId() == null) {
             return createVat(vat);
         }
-        Vat result = vatService.save(vat);
+        Vat result = vatService.saveWithHistoric(vat);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("vat", vat.getId().toString()))
             .body(result);
