@@ -4,12 +4,11 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import such.alex.tpv.config.custom.exception.HistoricRepositoryException;
+import such.alex.tpv.config.custom.exception.HistoricException;
 import such.alex.tpv.domain.HistoricEntity;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 /**
  * Created by alejandro on 31/01/2016.
@@ -41,7 +40,7 @@ public class HistoricRepositoryImpl<T extends HistoricEntity, ID extends Seriali
             return deactivateReferenceAndCreateNew(historic);
         }
 
-        throw new HistoricRepositoryException("Cannot update deactivated entities");
+        throw new HistoricException("Cannot update deactivated entities");
     }
 
     private <S extends T> S deactivateReferenceAndCreateNew(S historic) {
