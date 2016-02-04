@@ -1,5 +1,7 @@
 package such.alex.tpv.domain;
 
+import such.alex.tpv.config.custom.exception.HistoricException;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
@@ -11,6 +13,8 @@ import java.time.LocalDate;
  */
 @MappedSuperclass
 public abstract class HistoricEntity implements Serializable, Cloneable {
+    public abstract HistoricEntity clone();
+    
     @Column(name = "active", nullable = false)
     private Boolean active = Boolean.TRUE;
 
@@ -25,10 +29,12 @@ public abstract class HistoricEntity implements Serializable, Cloneable {
     }
 
     public void setActive(Boolean active) {
+        if(Boolean.FALSE.equals(this.active) && Boolean.TRUE.equals(active)) {
+            throw new HistoricException("Cannot re-activate an inactive historic entity");
+        }
+
         this.active = active;
     }
-
-    public abstract HistoricEntity clone();
 
     @PrePersist
     public void prePersist() {
