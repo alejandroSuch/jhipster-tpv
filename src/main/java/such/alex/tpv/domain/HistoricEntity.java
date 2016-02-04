@@ -2,6 +2,7 @@ package such.alex.tpv.domain;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -29,19 +30,19 @@ public abstract class HistoricEntity implements Serializable, Cloneable {
 
     public abstract HistoricEntity clone();
 
-    public LocalDate getActiveFrom() {
-        return activeFrom;
-    }
+    @PrePersist
+    public void prePersist() {
+        if(active == null) {
+            active = Boolean.TRUE;
+        }
 
-    public void setActiveFrom(LocalDate activeFrom) {
-        this.activeFrom = activeFrom;
-    }
+        if(activeFrom == null) {
+            activeFrom = LocalDate.now();
+            activeTo = null;
+        }
 
-    public LocalDate getActiveTo() {
-        return activeTo;
-    }
-
-    public void setActiveTo(LocalDate activeTo) {
-        this.activeTo = activeTo;
+        if(Boolean.FALSE.equals(active) && activeTo == null) {
+            activeTo = LocalDate.now();
+        }
     }
 }
