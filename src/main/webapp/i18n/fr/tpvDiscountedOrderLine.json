@@ -1,0 +1,23 @@
+{
+    "tpvApp": {
+        "tpvDiscountedOrderLine" : {
+            "home": {
+                "title": "TpvDiscountedOrderLines",
+                "createLabel": "Créer un nouveau TpvDiscountedOrderLine",
+                "createOrEditLabel": "Créer ou éditer un TpvDiscountedOrderLine",
+                "search": "Search for TpvDiscountedOrderLine"
+            },
+            "created": "Un nouveau TpvDiscountedOrderLine a été créé avec l'identifiant {{ param }}",
+            "updated": "Le TpvDiscountedOrderLine avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le TpvDiscountedOrderLine avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le TpvDiscountedOrderLine {{ id }} ?"
+            },
+            "detail": {
+                "title": "TpvDiscountedOrderLine"
+            },
+            "discount": "Discount"
+        }
+    }
+}
+

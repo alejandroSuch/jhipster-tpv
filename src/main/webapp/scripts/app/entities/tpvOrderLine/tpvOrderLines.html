@@ -1,0 +1,89 @@
+<div>
+    <h2 translate="tpvApp.tpvOrderLine.home.title">TpvOrderLines</h2>
+    <jh-alert></jh-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="tpvOrderLine.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span 
+class="hidden-xs"                        translate="tpvApp.tpvOrderLine.home.createLabel">Create new TpvOrderLine
+                    </span>
+                </button>
+            </div>
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right" >
+                        <input type="text" class="form-control" ng-model="searchQuery" id="searchQuery" placeholder="{{ 'tpvApp.tpvOrderLine.home.search' | translate }}">
+                        <span  class="input-group-btn width-min" >
+                            <button class="btn btn-info" ng-click="search()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="predicate" ascending="reverse" callback="loadAll()">
+                    <th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lineNumber"><span translate="tpvApp.tpvOrderLine.lineNumber">LineNumber</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qty"><span translate="tpvApp.tpvOrderLine.qty">Qty</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="tpvOrder.id"><span translate="tpvApp.tpvOrderLine.tpvOrder">tpvOrder</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="product.name"><span translate="tpvApp.tpvOrderLine.product">product</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="price.value"><span translate="tpvApp.tpvOrderLine.price">price</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="vat.value"><span translate="tpvApp.tpvOrderLine.vat">vat</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tpvOrderLine in tpvOrderLines track by tpvOrderLine.id">
+                    <td><a ui-sref="tpvOrderLine.detail({id:tpvOrderLine.id})">{{tpvOrderLine.id}}</a></td>
+                    <td>{{tpvOrderLine.lineNumber}}</td>
+                    <td>{{tpvOrderLine.qty}}</td>
+                    <td>
+                        <a ui-sref="tpvOrder.detail({id:tpvOrderLine.tpvOrder.id})">{{tpvOrderLine.tpvOrder.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="product.detail({id:tpvOrderLine.product.id})">{{tpvOrderLine.product.name}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="price.detail({id:tpvOrderLine.price.id})">{{tpvOrderLine.price.value}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="vat.detail({id:tpvOrderLine.vat.id})">{{tpvOrderLine.vat.value}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="tpvOrderLine.detail({id:tpvOrderLine.id})"
+                                    class="btn btn-info btn-sm"> 
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="tpvOrderLine.edit({id:tpvOrderLine.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="tpvOrderLine.delete({id:tpvOrderLine.id})"
+                                    class="btn btn-danger btn-sm">                                    
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <uib-pagination class="pagination-sm" total-items="totalItems" ng-model="page" ng-change="loadAll()"></uib-pagination>
+    </div>
+</div>

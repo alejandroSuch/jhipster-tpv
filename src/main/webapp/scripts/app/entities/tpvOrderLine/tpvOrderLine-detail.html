@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="tpvApp.tpvOrderLine.detail.title">TpvOrderLine</span> {{tpvOrderLine.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="tpvApp.tpvOrderLine.lineNumber">LineNumber</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{tpvOrderLine.lineNumber}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.tpvOrderLine.qty">Qty</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{tpvOrderLine.qty}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.tpvOrderLine.tpvOrder">tpvOrder</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="tpvOrder.detail({id:tpvOrderLine.tpvOrder.id})">{{tpvOrderLine.tpvOrder.id}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.tpvOrderLine.product">product</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="product.detail({id:tpvOrderLine.product.id})">{{tpvOrderLine.product.name}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.tpvOrderLine.price">price</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="price.detail({id:tpvOrderLine.price.id})">{{tpvOrderLine.price.value}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.tpvOrderLine.vat">vat</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="vat.detail({id:tpvOrderLine.vat.id})">{{tpvOrderLine.vat.value}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

@@ -1,0 +1,16 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "discount",
+            "otherEntityName": "discount",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "code"
+        }
+    ],
+    "fields": [],
+    "changelogDate": "20160207125448",
+    "dto": "no",
+    "service": "serviceClass",
+    "pagination": "infinite-scroll"
+}

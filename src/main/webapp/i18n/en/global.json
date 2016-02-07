@@ -9,6 +9,12 @@
                 "main": "Entities",
                 "vat": "Vat",
                 "category": "Category",
+                "discount": "Discount",
+                "price": "Price",
+                "product": "Product",
+                "tpvOrder": "TpvOrder",
+                "tpvOrderLine": "TpvOrderLine",
+                "tpvDiscountedOrderLine": "TpvDiscountedOrderLine",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

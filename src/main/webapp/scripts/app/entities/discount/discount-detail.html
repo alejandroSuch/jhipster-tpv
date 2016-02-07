@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="tpvApp.discount.detail.title">Discount</span> {{discount.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="tpvApp.discount.code">Code</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{discount.code}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.discount.description">Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{discount.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.discount.value">Value</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{discount.value}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.discount.units">Units</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{discount.units}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.discount.activeFrom">ActiveFrom</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{discount.activeFrom | date:'mediumDate'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.discount.activeTo">ActiveTo</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{discount.activeTo | date:'mediumDate'}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

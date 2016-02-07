@@ -1,0 +1,28 @@
+{
+    "tpvApp": {
+        "discount" : {
+            "home": {
+                "title": "Discounts",
+                "createLabel": "Créer un nouveau Discount",
+                "createOrEditLabel": "Créer ou éditer un Discount",
+                "search": "Search for Discount"
+            },
+            "created": "Un nouveau Discount a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Discount avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Discount avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Discount {{ id }} ?"
+            },
+            "detail": {
+                "title": "Discount"
+            },
+            "code": "Code",
+            "description": "Description",
+            "value": "Value",
+            "units": "Units",
+            "activeFrom": "ActiveFrom",
+            "activeTo": "ActiveTo"
+        }
+    }
+}
+

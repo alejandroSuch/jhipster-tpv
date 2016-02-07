@@ -1,0 +1,27 @@
+{
+    "tpvApp": {
+        "tpvOrderLine" : {
+            "home": {
+                "title": "TpvOrderLines",
+                "createLabel": "Create a new TpvOrderLine",
+                "createOrEditLabel": "Create or edit a TpvOrderLine",
+                "search": "Search for TpvOrderLine"
+            },
+            "created": "A new TpvOrderLine is created with identifier {{ param }}",
+            "updated": "A TpvOrderLine is updated with identifier {{ param }}",
+            "deleted": "A TpvOrderLine is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete TpvOrderLine {{ id }}?"
+            },
+            "detail": {
+                "title": "TpvOrderLine"
+            },
+            "lineNumber": "LineNumber",
+            "qty": "Qty",
+            "tpvOrder": "TpvOrder",
+            "product": "Product",
+            "price": "Price",
+            "vat": "Vat"
+        }
+    }
+}

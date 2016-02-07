@@ -1,0 +1,90 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myTpvOrderLineLabel" translate="tpvApp.tpvOrderLine.home.createOrEditLabel">Create or edit a TpvOrderLine</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="tpvOrderLine.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="tpvApp.tpvOrderLine.lineNumber" for="field_lineNumber">LineNumber</label>
+            <input type="number" class="form-control" name="lineNumber" id="field_lineNumber"
+                    ng-model="tpvOrderLine.lineNumber"
+                    required min="1" />
+            <div ng-show="editForm.lineNumber.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.lineNumber.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.lineNumber.$error.min" translate="entity.validation.min" translate-value-min="1">
+                    This field should be more than 1.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.lineNumber.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="tpvApp.tpvOrderLine.qty" for="field_qty">Qty</label>
+            <input type="number" class="form-control" name="qty" id="field_qty"
+                    ng-model="tpvOrderLine.qty"
+                    required min="1" />
+            <div ng-show="editForm.qty.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.qty.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.qty.$error.min" translate="entity.validation.min" translate-value-min="1">
+                    This field should be more than 1.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.qty.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label translate="tpvApp.tpvOrderLine.tpvOrder" for="field_tpvOrder">tpvOrder</label>
+            <select class="form-control" id="field_tpvOrder" name="tpvOrder" ng-model="tpvOrderLine.tpvOrder" ng-options="tpvOrder as tpvOrder.id for tpvOrder in tpvorders track by tpvOrder.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="tpvApp.tpvOrderLine.product" for="field_product">product</label>
+            <select class="form-control" id="field_product" name="product" ng-model="tpvOrderLine.product" ng-options="product as product.name for product in products track by product.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="tpvApp.tpvOrderLine.price" for="field_price">price</label>
+            <select class="form-control" id="field_price" name="price" ng-model="tpvOrderLine.price" ng-options="price as price.value for price in prices track by price.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="tpvApp.tpvOrderLine.vat" for="field_vat">vat</label>
+            <select class="form-control" id="field_vat" name="vat" ng-model="tpvOrderLine.vat" ng-options="vat as vat.value for vat in vats track by vat.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,58 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "tpvOrder",
+            "otherEntityName": "tpvOrder",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipId": 3,
+            "relationshipName": "price",
+            "otherEntityName": "price",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "value"
+        },
+        {
+            "relationshipId": 4,
+            "relationshipName": "vat",
+            "otherEntityName": "vat",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "value"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "lineNumber",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": "1"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "qty",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": "1"
+        }
+    ],
+    "changelogDate": "20160207125303",
+    "dto": "no",
+    "service": "serviceClass",
+    "pagination": "pagination"
+}

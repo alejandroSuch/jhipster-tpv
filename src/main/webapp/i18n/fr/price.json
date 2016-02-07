@@ -1,0 +1,23 @@
+{
+    "tpvApp": {
+        "price" : {
+            "home": {
+                "title": "Prices",
+                "createLabel": "Créer un nouveau Price",
+                "createOrEditLabel": "Créer ou éditer un Price",
+                "search": "Search for Price"
+            },
+            "created": "Un nouveau Price a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Price avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Price avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Price {{ id }} ?"
+            },
+            "detail": {
+                "title": "Price"
+            },
+            "value": "Value"
+        }
+    }
+}
+

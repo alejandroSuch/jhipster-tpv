@@ -1,0 +1,22 @@
+{
+    "tpvApp": {
+        "tpvOrder" : {
+            "home": {
+                "title": "TpvOrders",
+                "createLabel": "Create a new TpvOrder",
+                "createOrEditLabel": "Create or edit a TpvOrder",
+                "search": "Search for TpvOrder"
+            },
+            "created": "A new TpvOrder is created with identifier {{ param }}",
+            "updated": "A TpvOrder is updated with identifier {{ param }}",
+            "deleted": "A TpvOrder is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete TpvOrder {{ id }}?"
+            },
+            "detail": {
+                "title": "TpvOrder"
+            },
+            "dateCreated": "DateCreated"
+        }
+    }
+}

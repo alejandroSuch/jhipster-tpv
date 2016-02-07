@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="alejandro (generated)" id="1454872287976-1">
+        <addColumn tableName="tpv_order_line">
+            <column name="DTYPE" type="varchar(31)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="alejandro (generated)" id="1454872287976-2">
+        <addColumn tableName="tpv_order_line">
+            <column name="discount_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="alejandro (generated)" id="1454872287976-3">
+        <addForeignKeyConstraint baseColumnNames="discount_id" baseTableName="tpv_order_line" constraintName="FK_4458wdrneqkkofh2dkit7bgew" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="discount"/>
+    </changeSet>
+    <changeSet author="alejandro (generated)" id="1454872287976-4">
+        <dropForeignKeyConstraint baseTableName="tpv_discounted_order_line" constraintName="fk_tpvdiscountedorderline_discount_id"/>
+    </changeSet>
+    <changeSet author="alejandro (generated)" id="1454872287976-6">
+        <dropTable tableName="tpv_discounted_order_line"/>
+    </changeSet>
+</databaseChangeLog>

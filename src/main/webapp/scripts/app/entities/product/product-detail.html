@@ -1,0 +1,72 @@
+
+<div>
+    <h2><span translate="tpvApp.product.detail.title">Product</span> {{product.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="tpvApp.product.code">Code</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{product.code}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.product.name">Name</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{product.name}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.product.description">Description</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{product.description}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.product.price">price</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="price.detail({id:product.price.id})">{{product.price.value}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.product.category">category</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="category.detail({id:product.category.id})">{{product.category.name}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="tpvApp.product.discount">discount</span>
+                </td>
+                <td>
+                    <span ng-repeat="discount in product.discounts">
+                        <a class="form-control-static" ui-sref="discount.detail({id: {{discount.id}}})">{{discount.description}}</a>{{$last ? '' : ', '}}
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

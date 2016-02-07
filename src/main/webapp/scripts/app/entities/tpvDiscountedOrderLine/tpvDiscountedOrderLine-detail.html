@@ -1,0 +1,30 @@
+
+<div>
+    <h2><span translate="tpvApp.tpvDiscountedOrderLine.detail.title">TpvDiscountedOrderLine</span> {{tpvDiscountedOrderLine.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="tpvApp.tpvDiscountedOrderLine.discount">discount</span>
+                </td>
+                <td>
+                    <a class="form-control-static" ui-sref="discount.detail({id:tpvDiscountedOrderLine.discount.id})">{{tpvDiscountedOrderLine.discount.code}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>
