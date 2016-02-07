@@ -1,11 +1,10 @@
 package such.alex.tpv.config.custom.repository;
 
-import org.springframework.data.jpa.provider.PersistenceProvider;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.util.Assert;
+import such.alex.tpv.config.custom.exception.HistoricException;
 import such.alex.tpv.domain.HistoricEntity;
 
 import javax.persistence.EntityManager;
@@ -35,14 +34,31 @@ public class HistoricRepositoryImpl<T extends HistoricEntity, ID extends Seriali
     @Override
     public <S extends T> S saveWithHistoric(S historic) {
         if (this.entityInformation.isNew(historic)) {
+            historic.setActive(Boolean.TRUE);
             return this.save(historic);
-        } else {
-            final S clone = (S) historic.clone();
-            final HistoricEntity reference = this.entityManager.getReference(this.getDomainClass(), entityInformation.getId(historic));
-            reference.setActive(false);
-            super.save((S)reference);
-
-            return this.save(clone);
+        } else if (Boolean.TRUE.equals(historic.getActive())) {
+            return deactivateReferenceAndCreateNew(historic);
         }
+
+        throw new HistoricException("Cannot update deactivated entities");
+    }
+
+    private <S extends T> S deactivateReferenceAndCreateNew(S historic) {
+        return deactivateReference(historic)
+                .createNew(historic);
+    }
+
+    private <S extends T> HistoricRepositoryImpl<T, ID> deactivateReference(S historic) {
+        final HistoricEntity reference = this.entityManager.getReference(this.getDomainClass(), entityInformation.getId(historic));
+        reference.setActive(Boolean.FALSE);
+        super.save((S) reference);
+
+        return this;
+    }
+
+    private <S extends T> S createNew(S historic) {
+        final S clone = (S) historic.clone();
+        clone.setActive(Boolean.TRUE);
+        return this.save(clone);
     }
 }

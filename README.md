@@ -1,4 +1,4 @@
-# tpv [![Build Status](https://travis-ci.org/alejandroSuch/jhipster-tpv.svg?branch=develop)](https://travis-ci.org/alejandroSuch/jhipster-tpv)
+# tpv [![Build Status](https://travis-ci.org/alejandroSuch/jhipster-tpv.svg?branch=feature/categories)](https://travis-ci.org/alejandroSuch/jhipster-tpv)
 
 This application was generated using JHipster, you can find documentation and help at [https://jhipster.github.io](https://jhipster.github.io).
 
