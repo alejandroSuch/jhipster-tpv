@@ -87,15 +87,15 @@ public class CategoryResourceIntTest {
 
         // Create the Category
 
-        restCategoryMockMvc.perform(post("/api/categorys")
+        restCategoryMockMvc.perform(post("/api/categories")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(category)))
                 .andExpect(status().isCreated());
 
         // Validate the Category in the database
-        List<Category> categorys = categoryRepository.findAll();
-        assertThat(categorys).hasSize(databaseSizeBeforeCreate + 1);
-        Category testCategory = categorys.get(categorys.size() - 1);
+        List<Category> categories = categoryRepository.findAll();
+        assertThat(categories).hasSize(databaseSizeBeforeCreate + 1);
+        Category testCategory = categories.get(categories.size() - 1);
         assertThat(testCategory.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCategory.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
@@ -109,13 +109,13 @@ public class CategoryResourceIntTest {
 
         // Create the Category, which fails.
 
-        restCategoryMockMvc.perform(post("/api/categorys")
+        restCategoryMockMvc.perform(post("/api/categories")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(category)))
                 .andExpect(status().isBadRequest());
 
-        List<Category> categorys = categoryRepository.findAll();
-        assertThat(categorys).hasSize(databaseSizeBeforeTest);
+        List<Category> categories = categoryRepository.findAll();
+        assertThat(categories).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -124,8 +124,8 @@ public class CategoryResourceIntTest {
         // Initialize the database
         categoryRepository.saveAndFlush(category);
 
-        // Get all the categorys
-        restCategoryMockMvc.perform(get("/api/categorys?sort=id,desc"))
+        // Get all the categories
+        restCategoryMockMvc.perform(get("/api/categories?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(category.getId().intValue())))
@@ -140,7 +140,7 @@ public class CategoryResourceIntTest {
         categoryRepository.saveAndFlush(category);
 
         // Get the category
-        restCategoryMockMvc.perform(get("/api/categorys/{id}", category.getId()))
+        restCategoryMockMvc.perform(get("/api/categories/{id}", category.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(category.getId().intValue()))
@@ -152,7 +152,7 @@ public class CategoryResourceIntTest {
     @Transactional
     public void getNonExistingCategory() throws Exception {
         // Get the category
-        restCategoryMockMvc.perform(get("/api/categorys/{id}", Long.MAX_VALUE))
+        restCategoryMockMvc.perform(get("/api/categories/{id}", Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
     }
 
@@ -168,15 +168,15 @@ public class CategoryResourceIntTest {
         category.setName(UPDATED_NAME);
         category.setDescription(UPDATED_DESCRIPTION);
 
-        restCategoryMockMvc.perform(put("/api/categorys")
+        restCategoryMockMvc.perform(put("/api/categories")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(category)))
                 .andExpect(status().isOk());
 
         // Validate the Category in the database
-        List<Category> categorys = categoryRepository.findAll();
-        assertThat(categorys).hasSize(databaseSizeBeforeUpdate);
-        Category testCategory = categorys.get(categorys.size() - 1);
+        List<Category> categories = categoryRepository.findAll();
+        assertThat(categories).hasSize(databaseSizeBeforeUpdate);
+        Category testCategory = categories.get(categories.size() - 1);
         assertThat(testCategory.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCategory.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
@@ -190,12 +190,12 @@ public class CategoryResourceIntTest {
 		int databaseSizeBeforeDelete = categoryRepository.findAll().size();
 
         // Get the category
-        restCategoryMockMvc.perform(delete("/api/categorys/{id}", category.getId())
+        restCategoryMockMvc.perform(delete("/api/categories/{id}", category.getId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<Category> categorys = categoryRepository.findAll();
-        assertThat(categorys).hasSize(databaseSizeBeforeDelete - 1);
+        List<Category> categories = categoryRepository.findAll();
+        assertThat(categories).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

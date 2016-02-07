@@ -53,13 +53,13 @@ public class CategoryService {
     }
 
     /**
-     * get all the categorys.
+     * get all the categories.
      *
      * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<Category> findAll() {
-        log.debug("Request to get all Categorys");
+        log.debug("Request to get all Categories");
         List<Category> result = categoryRepository.findAll();
         return result;
     }
@@ -92,7 +92,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<Category> search(String query) {
 
-        log.debug("REST request to search Categorys for query {}", query);
+        log.debug("REST request to search Categories for query {}", query);
         return StreamSupport
             .stream(categorySearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());

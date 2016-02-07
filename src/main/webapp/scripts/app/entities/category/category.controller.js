@@ -3,10 +3,10 @@
 angular.module('tpvApp')
     .controller('CategoryController', function ($scope, $state, Category, CategorySearch) {
 
-        $scope.categorys = [];
+        $scope.categories = [];
         $scope.loadAll = function() {
             Category.query(function(result) {
-               $scope.categorys = result;
+               $scope.categories = result;
             });
         };
         $scope.loadAll();
@@ -14,7 +14,7 @@ angular.module('tpvApp')
 
         $scope.search = function () {
             CategorySearch.query({query: $scope.searchQuery}, function(result) {
-                $scope.categorys = result;
+                $scope.categories = result;
             }, function(response) {
                 if(response.status === 404) {
                     $scope.loadAll();

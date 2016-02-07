@@ -14,7 +14,7 @@ angular.module('tpvApp').controller('ProductDialogController',
         }).then(function(price) {
             $scope.prices.push(price);
         });
-        $scope.categorys = Category.query();
+        $scope.categories = Category.query();
         $scope.discounts = Discount.query();
         $scope.load = function(id) {
             Product.get({id : id}, function(result) {

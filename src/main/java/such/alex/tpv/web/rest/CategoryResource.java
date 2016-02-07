@@ -37,9 +37,9 @@ public class CategoryResource {
     private CategoryService categoryService;
 
     /**
-     * POST  /categorys -> Create a new category.
+     * POST  /categories -> Create a new category.
      */
-    @RequestMapping(value = "/categorys",
+    @RequestMapping(value = "/categories",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -49,15 +49,15 @@ public class CategoryResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("category", "idexists", "A new category cannot already have an ID")).body(null);
         }
         Category result = categoryService.save(category);
-        return ResponseEntity.created(new URI("/api/categorys/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/categories/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("category", result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /categorys -> Updates an existing category.
+     * PUT  /categories -> Updates an existing category.
      */
-    @RequestMapping(value = "/categorys",
+    @RequestMapping(value = "/categories",
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -73,21 +73,21 @@ public class CategoryResource {
     }
 
     /**
-     * GET  /categorys -> get all the categorys.
+     * GET  /categories -> get all the categories.
      */
-    @RequestMapping(value = "/categorys",
+    @RequestMapping(value = "/categories",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Category> getAllCategorys() {
-        log.debug("REST request to get all Categorys");
+        log.debug("REST request to get all Categories");
         return categoryService.findAll();
             }
 
     /**
-     * GET  /categorys/:id -> get the "id" category.
+     * GET  /categories/:id -> get the "id" category.
      */
-    @RequestMapping(value = "/categorys/{id}",
+    @RequestMapping(value = "/categories/{id}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -102,9 +102,9 @@ public class CategoryResource {
     }
 
     /**
-     * DELETE  /categorys/:id -> delete the "id" category.
+     * DELETE  /categories/:id -> delete the "id" category.
      */
-    @RequestMapping(value = "/categorys/{id}",
+    @RequestMapping(value = "/categories/{id}",
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -115,15 +115,15 @@ public class CategoryResource {
     }
 
     /**
-     * SEARCH  /_search/categorys/:query -> search for the category corresponding
+     * SEARCH  /_search/categories/:query -> search for the category corresponding
      * to the query.
      */
-    @RequestMapping(value = "/_search/categorys/{query:.+}",
+    @RequestMapping(value = "/_search/categories/{query:.+}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Category> searchCategorys(@PathVariable String query) {
-        log.debug("Request to search Categorys for query {}", query);
+        log.debug("Request to search Categories for query {}", query);
         return categoryService.search(query);
     }
 }

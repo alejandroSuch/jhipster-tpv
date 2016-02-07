@@ -2,7 +2,7 @@
     "tpvApp": {
         "category" : {
             "home": {
-                "title": "Categorys",
+                "title": "Categories",
                 "createLabel": "Créer un nouveau Category",
                 "createOrEditLabel": "Créer ou éditer un Category",
                 "search": "Search for Category"

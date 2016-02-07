@@ -6,7 +6,7 @@ angular.module('tpvApp').controller('CategoryDialogController',
 
         $scope.category = entity;
         $scope.vats = Vat.query();
-        $scope.categorys = Category.query();
+        $scope.categories = Category.query();
         $scope.load = function(id) {
             Category.get({id : id}, function(result) {
                 $scope.category = result;

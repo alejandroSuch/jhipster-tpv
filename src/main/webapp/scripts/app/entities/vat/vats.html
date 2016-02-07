@@ -42,7 +42,7 @@ class="hidden-xs"                        translate="tpvApp.vat.home.createLabel"
                     <td><a ui-sref="vat.detail({id:vat.id})">{{vat.id}}</a></td>
                     <td>{{vat.code}}</td>
                     <td>{{vat.description}}</td>
-                    <td>{{vat.value}}</td>
+                    <td>{{vat.value * 100}}%</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

@@ -5,14 +5,14 @@ angular.module('tpvApp')
         $stateProvider
             .state('category', {
                 parent: 'entity',
-                url: '/categorys',
+                url: '/categories',
                 data: {
                     authorities: ['ROLE_USER'],
                     pageTitle: 'tpvApp.category.home.title'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/entities/category/categorys.html',
+                        templateUrl: 'scripts/app/entities/category/categories.html',
                         controller: 'CategoryController'
                     }
                 },

@@ -2,7 +2,7 @@
 
 angular.module('tpvApp')
     .factory('Category', function ($resource, DateUtils) {
-        return $resource('api/categorys/:id', {}, {
+        return $resource('api/categories/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',

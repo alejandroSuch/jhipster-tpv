@@ -1,5 +1,5 @@
 <div>
-    <h2 translate="tpvApp.category.home.title">Categorys</h2>
+    <h2 translate="tpvApp.category.home.title">Categories</h2>
     <jh-alert></jh-alert>
     <div class="container-fluid">
         <div class="row">
@@ -39,7 +39,7 @@ class="hidden-xs"                        translate="tpvApp.category.home.createL
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="category in categorys track by category.id">
+                <tr ng-repeat="category in categories track by category.id">
                     <td><a ui-sref="category.detail({id:category.id})">{{category.id}}</a></td>
                     <td>{{category.name}}</td>
                     <td>{{category.description}}</td>
