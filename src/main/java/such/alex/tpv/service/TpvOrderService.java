@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import such.alex.tpv.state.order.OrderState;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -26,13 +27,13 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class TpvOrderService {
 
     private final Logger log = LoggerFactory.getLogger(TpvOrderService.class);
-    
+
     @Inject
     private TpvOrderRepository tpvOrderRepository;
-    
+
     @Inject
     private TpvOrderSearchRepository tpvOrderSearchRepository;
-    
+
     /**
      * Save a tpvOrder.
      * @return the persisted entity
@@ -48,10 +49,10 @@ public class TpvOrderService {
      *  get all the tpvOrders.
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<TpvOrder> findAll(Pageable pageable) {
         log.debug("Request to get all TpvOrders");
-        Page<TpvOrder> result = tpvOrderRepository.findAll(pageable); 
+        Page<TpvOrder> result = tpvOrderRepository.findAll(pageable);
         return result;
     }
 
@@ -59,7 +60,7 @@ public class TpvOrderService {
      *  get one tpvOrder by id.
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public TpvOrder findOne(Long id) {
         log.debug("Request to get TpvOrder : {}", id);
         TpvOrder tpvOrder = tpvOrderRepository.findOne(id);
@@ -79,12 +80,26 @@ public class TpvOrderService {
      * search for the tpvOrder corresponding
      * to the query.
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<TpvOrder> search(String query) {
-        
+
         log.debug("REST request to search TpvOrders for query {}", query);
         return StreamSupport
             .stream(tpvOrderSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
+    }
+
+    public TpvOrder createNew() {
+        return new TpvOrder();
+    }
+
+    public void handleNextState(TpvOrder order) {
+        OrderState state = order.getState();
+        state.handleNext(order);
+    }
+
+    public void handlePrevState(TpvOrder order) {
+        OrderState state = order.getState();
+        state.handlePrev(order);
     }
 }

@@ -1,11 +1,16 @@
 package such.alex.tpv.domain;
 
-import java.time.ZonedDateTime;
 import org.springframework.data.elasticsearch.annotations.Document;
+import such.alex.tpv.state.order.OrderState;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -23,7 +28,19 @@ public class TpvOrder implements Serializable {
     @NotNull
     @Column(name = "date_created", nullable = false)
     private ZonedDateTime dateCreated;
-    
+
+    @OneToMany(mappedBy = "tpvOrder", cascade = CascadeType.ALL)
+    private Collection<TpvOrderLine> lines;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state")
+    private OrderState state;
+
+    public TpvOrder() {
+        this.state = OrderState.EMPTY;
+        this.dateCreated = ZonedDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }
@@ -35,9 +52,29 @@ public class TpvOrder implements Serializable {
     public ZonedDateTime getDateCreated() {
         return dateCreated;
     }
-    
+
     public void setDateCreated(ZonedDateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Collection<TpvOrderLine> getLines() {
+        if(lines == null) {
+            lines = new ArrayList<>();
+        }
+
+        return lines;
+    }
+
+    public void setLines(Collection<TpvOrderLine> lines) {
+        this.lines = lines;
+    }
+
+    public OrderState getState() {
+        return state;
+    }
+
+    public void setState(OrderState state) {
+        this.state = state;
     }
 
     @Override
@@ -49,7 +86,7 @@ public class TpvOrder implements Serializable {
             return false;
         }
         TpvOrder tpvOrder = (TpvOrder) o;
-        if(tpvOrder.id == null || id == null) {
+        if (tpvOrder.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, tpvOrder.id);
