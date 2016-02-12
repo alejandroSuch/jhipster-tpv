@@ -58,7 +58,6 @@ public class HistoricRepositoryImpl<T extends HistoricEntity, ID extends Seriali
 
     private <S extends T> S createNew(S historic) {
         final S clone = (S) historic.clone();
-        clone.setActive(Boolean.TRUE);
         return this.save(clone);
     }
 }
