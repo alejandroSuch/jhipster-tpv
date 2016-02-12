@@ -39,11 +39,19 @@ public class DiscountServiceTest {
     DiscountService discountService;
 
     @Test
-    public void test(){
+    public void getsADiscountForAGivenProduct(){
         final Product product = setupProductWithTwoDiscounts();
         final Discount activeDiscountForProduct = discountService.getActiveDiscountForProduct(product);
 
         assertThat(activeDiscountForProduct.getValue()).isEqualTo(5f);
+    }
+
+    @Test
+    public void getsNoDiscountForAGivenProduct(){
+        final Product product = setupProductWithTwoFutureDiscounts();
+        final Discount activeDiscountForProduct = discountService.getActiveDiscountForProduct(product);
+
+        assertThat(activeDiscountForProduct.getValue()).isNull();
     }
 
     private Product setupProductWithTwoDiscounts() {
@@ -66,6 +74,39 @@ public class DiscountServiceTest {
         Discount secondDiscount = new Discount()
             .setActiveFrom(now.plusDays(4))
             .setActiveTo(now.plusDays(7))
+            .setValue(1f)
+            .setDescription("second discount")
+            .setUnits(3)
+            .setCode("secondDiscount");
+
+        final Set<Discount> discounts = product.getDiscounts();
+
+        discounts.add(firstDiscount);
+        discounts.add(secondDiscount);
+
+        return productService.save(product);
+    }
+
+    private Product setupProductWithTwoFutureDiscounts() {
+        final LocalDate now = LocalDate.now();
+
+        Product product = new Product()
+            .setName("name")
+            .setCode("1111111111111")
+            .setDescription("product description");
+
+
+        Discount firstDiscount = new Discount()
+            .setActiveFrom(now.plusDays(4))
+            .setActiveTo(now.plusDays(7))
+            .setValue(5f)
+            .setDescription("second discount")
+            .setUnits(3)
+            .setCode("secondDiscount");
+
+        Discount secondDiscount = new Discount()
+            .setActiveFrom(now.plusDays(10))
+            .setActiveTo(now.plusDays(20))
             .setValue(1f)
             .setDescription("second discount")
             .setUnits(3)
