@@ -1,12 +1,14 @@
-language: node_js
-node_js:
-  - "0.12"
+language: java
+jdk:
+  - oraclejdk8
 sudo: false
 before_install:
   - npm install -g grunt-cli
   - npm install -g bower
   - bower install
-install: npm install
+install:
+  - npm install
+  - mvn clean test
 before_script: grunt build
 notifications:
   webhooks:
