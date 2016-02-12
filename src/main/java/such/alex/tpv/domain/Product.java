@@ -1,5 +1,6 @@
 package such.alex.tpv.domain;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "product")
 @Document(indexName = "product")
-public class Product implements Serializable {
+public class Product extends HistoricEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -110,6 +111,11 @@ public class Product implements Serializable {
         return this;
     }
 
+    public Product addDiscount(Discount discount) {
+        this.getDiscounts().add(discount);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -138,5 +144,12 @@ public class Product implements Serializable {
             ", name='" + name + "'" +
             ", description='" + description + "'" +
             '}';
+    }
+
+    @Override
+    public HistoricEntity clone() {
+        Product result = new Product();
+        BeanUtils.copyProperties(this, result, "id", "active", "activeFrom", "activeTo");
+        return result;
     }
 }
