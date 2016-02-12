@@ -10,7 +10,6 @@ before_install:
   - bower install
 install:
   - npm install
-  - mvn clean test
 before_script: grunt build
 notifications:
   webhooks:
