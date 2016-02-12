@@ -51,7 +51,7 @@ public class DiscountServiceTest {
         final Product product = setupProductWithTwoFutureDiscounts();
         final Discount activeDiscountForProduct = discountService.getActiveDiscountForProduct(product);
 
-        assertThat(activeDiscountForProduct.getValue()).isNull();
+        assertThat(activeDiscountForProduct).isNull();
     }
 
     private Product setupProductWithTwoDiscounts() {
