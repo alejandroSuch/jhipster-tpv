@@ -29,12 +29,12 @@ public class TpvOrderLine implements Serializable {
     @Min(value = 1)
     @Column(name = "line_number", nullable = false)
     private Integer lineNumber;
-    
+
     @NotNull
     @Min(value = 1)
     @Column(name = "qty", nullable = false)
     private Integer qty;
-    
+
     @ManyToOne
     @JoinColumn(name = "tpv_order_id")
     private TpvOrder tpvOrder;
@@ -55,56 +55,73 @@ public class TpvOrderLine implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public TpvOrderLine setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Integer getLineNumber() {
         return lineNumber;
     }
-    
-    public void setLineNumber(Integer lineNumber) {
+
+    public TpvOrderLine setLineNumber(Integer lineNumber) {
         this.lineNumber = lineNumber;
+        return this;
     }
 
     public Integer getQty() {
         return qty;
     }
-    
-    public void setQty(Integer qty) {
+
+    public TpvOrderLine setQty(Integer qty) {
         this.qty = qty;
+        return this;
     }
 
     public TpvOrder getTpvOrder() {
         return tpvOrder;
     }
 
-    public void setTpvOrder(TpvOrder tpvOrder) {
+    public TpvOrderLine setTpvOrder(TpvOrder tpvOrder) {
         this.tpvOrder = tpvOrder;
+        return this;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public TpvOrderLine setProduct(Product product) {
         this.product = product;
+        return this;
     }
 
     public Price getPrice() {
         return price;
     }
 
-    public void setPrice(Price price) {
+    public TpvOrderLine setPrice(Price price) {
         this.price = price;
+        return this;
     }
 
     public Vat getVat() {
         return vat;
     }
 
-    public void setVat(Vat vat) {
+    public TpvOrderLine setVat(Vat vat) {
         this.vat = vat;
+        return this;
+    }
+
+    public TpvOrderLine increment() {
+        this.qty+= 1;
+        return this;
+    }
+
+    public TpvOrderLine increment(int units) {
+        this.qty+= units;
+        return this;
     }
 
     @Transient

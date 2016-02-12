@@ -23,83 +23,90 @@ public class Discount implements Serializable {
     @NotNull
     @Column(name = "code", nullable = false)
     private String code;
-    
+
     @NotNull
     @Column(name = "description", nullable = false)
     private String description;
-    
+
     @NotNull
     @Min(value = 1)
     @Column(name = "value", nullable = false)
     private Float value;
-    
+
     @NotNull
     @Min(value = 0)
     @Column(name = "units", nullable = false)
     private Integer units;
-    
+
     @NotNull
     @Column(name = "active_from", nullable = false)
     private LocalDate activeFrom;
-    
+
     @NotNull
     @Column(name = "active_to", nullable = false)
     private LocalDate activeTo;
-    
+
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Discount setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getCode() {
         return code;
     }
-    
-    public void setCode(String code) {
+
+    public Discount setCode(String code) {
         this.code = code;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
-    
-    public void setDescription(String description) {
+
+    public Discount setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Float getValue() {
         return value;
     }
-    
-    public void setValue(Float value) {
+
+    public Discount setValue(Float value) {
         this.value = value;
+        return this;
     }
 
     public Integer getUnits() {
         return units;
     }
-    
-    public void setUnits(Integer units) {
+
+    public Discount setUnits(Integer units) {
         this.units = units;
+        return this;
     }
 
     public LocalDate getActiveFrom() {
         return activeFrom;
     }
-    
-    public void setActiveFrom(LocalDate activeFrom) {
+
+    public Discount setActiveFrom(LocalDate activeFrom) {
         this.activeFrom = activeFrom;
+        return this;
     }
 
     public LocalDate getActiveTo() {
         return activeTo;
     }
-    
-    public void setActiveTo(LocalDate activeTo) {
+
+    public Discount setActiveTo(LocalDate activeTo) {
         this.activeTo = activeTo;
+        return this;
     }
 
     @Override

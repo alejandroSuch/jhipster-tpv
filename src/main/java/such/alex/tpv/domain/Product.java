@@ -25,14 +25,14 @@ public class Product implements Serializable {
     @Size(min = 13, max = 13)
     @Column(name = "code", length = 13, nullable = false)
     private String code;
-    
+
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-    
+
     @Column(name = "description")
     private String description;
-    
+
     @OneToOne
     @JoinColumn(name = "price_id")
     private Price price;
@@ -41,7 +41,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "product_discount",
                joinColumns = @JoinColumn(name="products_id", referencedColumnName="ID"),
                inverseJoinColumns = @JoinColumn(name="discounts_id", referencedColumnName="ID"))
@@ -51,56 +51,63 @@ public class Product implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public Product setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getCode() {
         return code;
     }
-    
-    public void setCode(String code) {
+
+    public Product setCode(String code) {
         this.code = code;
+        return this;
     }
 
     public String getName() {
         return name;
     }
-    
-    public void setName(String name) {
+
+    public Product setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
-    
-    public void setDescription(String description) {
+
+    public Product setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Price getPrice() {
         return price;
     }
 
-    public void setPrice(Price price) {
+    public Product setPrice(Price price) {
         this.price = price;
+        return this;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public Product setCategory(Category category) {
         this.category = category;
+        return this;
     }
 
     public Set<Discount> getDiscounts() {
         return discounts;
     }
 
-    public void setDiscounts(Set<Discount> discounts) {
+    public Product setDiscounts(Set<Discount> discounts) {
         this.discounts = discounts;
+        return this;
     }
 
     @Override
