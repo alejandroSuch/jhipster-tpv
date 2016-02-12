@@ -115,7 +115,7 @@ public class TpvOrderLine implements Serializable {
     }
 
     public TpvOrderLine increment() {
-        this.qty+= 1;
+        this.qty++;
         return this;
     }
 
@@ -124,8 +124,22 @@ public class TpvOrderLine implements Serializable {
         return this;
     }
 
+    public TpvOrderLine decrement() {
+        this.qty--;
+        return this;
+    }
+
+    public TpvOrderLine decrement(int units) {
+        this.qty-= units;
+        return this;
+    }
+
     @Transient
     public Float getTotal() {
+        if(getPrice() == null || getQty() == null) {
+            return null;
+        }
+
         return getPrice().getValue() * getQty();
     }
 
