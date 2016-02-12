@@ -97,7 +97,7 @@ public class Vat extends HistoricEntity {
 
     public Vat clone() {
         Vat result = new Vat();
-        BeanUtils.copyProperties(this, result, "id");
+        BeanUtils.copyProperties(this, result, "id", "active", "activeFrom", "activeTo");
         return result;
     }
 }

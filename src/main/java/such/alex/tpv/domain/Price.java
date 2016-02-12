@@ -24,21 +24,23 @@ public class Price extends HistoricEntity {
     @Min(value = 0)
     @Column(name = "value", nullable = false)
     private Float value;
-    
+
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Price setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Float getValue() {
         return value;
     }
-    
-    public void setValue(Float value) {
+
+    public Price setValue(Float value) {
         this.value = value;
+        return this;
     }
 
     @Override
@@ -72,7 +74,7 @@ public class Price extends HistoricEntity {
     @Override
     public Price clone() {
         Price result = new Price();
-        BeanUtils.copyProperties(this, result, "id");
+        BeanUtils.copyProperties(this, result, "id", "activeFrom", "activeTo", "active");
         return result;
     }
 }
