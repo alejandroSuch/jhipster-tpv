@@ -26,13 +26,13 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class ProductService {
 
     private final Logger log = LoggerFactory.getLogger(ProductService.class);
-    
+
     @Inject
     private ProductRepository productRepository;
-    
+
     @Inject
     private ProductSearchRepository productSearchRepository;
-    
+
     /**
      * Save a product.
      * @return the persisted entity
@@ -48,10 +48,10 @@ public class ProductService {
      *  get all the products.
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Product> findAll(Pageable pageable) {
         log.debug("Request to get all Products");
-        Page<Product> result = productRepository.findAll(pageable); 
+        Page<Product> result = productRepository.findAll(pageable);
         return result;
     }
 
@@ -59,7 +59,7 @@ public class ProductService {
      *  get one product by id.
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Product findOne(Long id) {
         log.debug("Request to get Product : {}", id);
         Product product = productRepository.findOneWithEagerRelationships(id);
@@ -79,12 +79,16 @@ public class ProductService {
      * search for the product corresponding
      * to the query.
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<Product> search(String query) {
-        
+
         log.debug("REST request to search Products for query {}", query);
         return StreamSupport
             .stream(productSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
+    }
+
+    public Product findByCode(String code) {
+        return productRepository.findOneByCodeAndActiveIsTrue(code);
     }
 }
