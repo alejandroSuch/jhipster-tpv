@@ -32,8 +32,9 @@ public class TpvDiscountedOrderLine extends TpvOrderLine {
         return discount;
     }
 
-    public void setDiscount(Discount discount) {
+    public TpvDiscountedOrderLine setDiscount(Discount discount) {
         this.discount = discount;
+        return this;
     }
 
     @Override
@@ -66,7 +67,13 @@ public class TpvDiscountedOrderLine extends TpvOrderLine {
     @Override
     @Transient
     public Float getTotal() {
-        int unitsToApplyDiscount = Math.round(getDiscount().getUnits() % getQty());
+        final Discount discount = getDiscount();
+
+        if(discount == null) {
+            return super.getTotal();
+        }
+
+        int unitsToApplyDiscount = Math.round(discount.getUnits() % getQty());
         return getPrice().getValue() * getQty();
     }
 }
