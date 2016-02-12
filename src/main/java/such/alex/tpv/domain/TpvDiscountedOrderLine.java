@@ -20,6 +20,14 @@ public class TpvDiscountedOrderLine extends TpvOrderLine {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
+    public TpvDiscountedOrderLine(){
+
+    }
+
+    public TpvDiscountedOrderLine(Discount discount) {
+        this.discount = discount;
+    }
+
     public Discount getDiscount() {
         return discount;
     }
