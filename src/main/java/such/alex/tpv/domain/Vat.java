@@ -37,32 +37,36 @@ public class Vat extends HistoricEntity {
         return id;
     }
 
-    public void setId(Long id) {
+    public Vat setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public Vat setCode(String code) {
         this.code = code;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Vat setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Float getValue() {
         return value;
     }
 
-    public void setValue(Float value) {
+    public Vat setValue(Float value) {
         this.value = value;
+        return this;
     }
 
     @Override
