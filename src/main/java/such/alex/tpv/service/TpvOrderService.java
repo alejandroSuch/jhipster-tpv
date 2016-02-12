@@ -1,10 +1,7 @@
 package such.alex.tpv.service;
 
 import org.springframework.util.CollectionUtils;
-import such.alex.tpv.domain.Discount;
-import such.alex.tpv.domain.Product;
-import such.alex.tpv.domain.TpvOrder;
-import such.alex.tpv.domain.TpvOrderLine;
+import such.alex.tpv.domain.*;
 import such.alex.tpv.repository.TpvOrderLineRepository;
 import such.alex.tpv.repository.TpvOrderRepository;
 import such.alex.tpv.repository.search.TpvOrderSearchRepository;
@@ -126,7 +123,7 @@ public class TpvOrderService {
             addNewLine(order, product);
         }
 
-        if (OrderState.EMPTY.equals(order)) {
+        if (OrderState.EMPTY.equals(order.getState())) {
             this.handleNextState(order);
         }
 
@@ -141,7 +138,7 @@ public class TpvOrderService {
         final Collection<TpvOrderLine> lines = order.getLines();
 
         int removedLineNumber = decrementLine(product, lines);
-        if(removedLineNumber != -1 && !CollectionUtils.isEmpty(lines)) {
+        if (removedLineNumber != -1 && !CollectionUtils.isEmpty(lines)) {
             updateLineNumbers(lines, removedLineNumber);
         }
 
@@ -156,9 +153,9 @@ public class TpvOrderService {
         int removedLineNumber = -1;
 
         for (TpvOrderLine line : lines) {
-            if(line.getProduct().equals(product)) {
+            if (line.getProduct().equals(product)) {
                 line.decrement();
-                if(line.getQty() <= 0) {
+                if (line.getQty() <= 0) {
                     removedLineNumber = line.getLineNumber();
                     lines.remove(line);
                     tpvOrderLineRepository.delete(line);
@@ -172,8 +169,8 @@ public class TpvOrderService {
     private void updateLineNumbers(Collection<TpvOrderLine> lines, int removedLineNumber) {
         for (TpvOrderLine line : lines) {
             final Integer lineNumber = line.getLineNumber();
-            if(lineNumber > removedLineNumber) {
-                line.setLineNumber(lineNumber-1);
+            if (lineNumber > removedLineNumber) {
+                line.setLineNumber(lineNumber - 1);
             }
         }
     }
@@ -182,10 +179,10 @@ public class TpvOrderService {
     private void addNewLine(TpvOrder order, Product product) {
         final Discount discount = discountService.getActiveDiscountForProduct(product);
 
-        final TpvOrderLine line = new TpvOrderLine();
+        final TpvOrderLine line = discount == null ? new TpvOrderLine() : new TpvDiscountedOrderLine(discount);
 
         line
-            .setTpvOrder(order)
+            .setLineNumber(order.getLines().size() + 1)
             .setProduct(product)
             .setPrice(product.getPrice())
             .setQty(1)
