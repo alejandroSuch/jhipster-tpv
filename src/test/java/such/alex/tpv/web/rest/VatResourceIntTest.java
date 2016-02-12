@@ -257,7 +257,7 @@ public class VatResourceIntTest {
 
         // Validate the Vat in the database
         List<Vat> vats = vatRepository.findAll();
-        assertThat(vats).hasSize(databaseSizeBeforeUpdate);
+        assertThat(vats).hasSize(databaseSizeBeforeUpdate + 1);
         Vat testVat = vats.get(vats.size() - 1);
         assertThat(testVat.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testVat.getDescription()).isEqualTo(UPDATED_DESCRIPTION);

@@ -106,24 +106,6 @@ public class TpvOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void checkDateCreatedIsRequired() throws Exception {
-        int databaseSizeBeforeTest = tpvOrderRepository.findAll().size();
-        // set the field null
-        tpvOrder.setDateCreated(null);
-
-        // Create the TpvOrder, which fails.
-
-        restTpvOrderMockMvc.perform(post("/api/tpvOrders")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(tpvOrder)))
-                .andExpect(status().isBadRequest());
-
-        List<TpvOrder> tpvOrders = tpvOrderRepository.findAll();
-        assertThat(tpvOrders).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllTpvOrders() throws Exception {
         // Initialize the database
         tpvOrderRepository.saveAndFlush(tpvOrder);

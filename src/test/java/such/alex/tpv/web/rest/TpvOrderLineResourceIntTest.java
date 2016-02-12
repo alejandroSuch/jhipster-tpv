@@ -1,7 +1,10 @@
 package such.alex.tpv.web.rest;
 
 import such.alex.tpv.Application;
-import such.alex.tpv.domain.TpvOrderLine;
+import such.alex.tpv.domain.*;
+import such.alex.tpv.repository.DiscountRepository;
+import such.alex.tpv.repository.PriceRepository;
+import such.alex.tpv.repository.ProductRepository;
 import such.alex.tpv.repository.TpvOrderLineRepository;
 import such.alex.tpv.service.TpvOrderLineService;
 
@@ -24,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,6 +69,15 @@ public class TpvOrderLineResourceIntTest {
 
     private TpvOrderLine tpvOrderLine;
 
+    @Inject
+    DiscountRepository discountRepository;
+
+    @Inject
+    PriceRepository priceRepository;
+
+    @Inject
+    ProductRepository productRepository;
+
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -77,9 +90,32 @@ public class TpvOrderLineResourceIntTest {
 
     @Before
     public void initTest() {
-        tpvOrderLine = new TpvOrderLine();
-        tpvOrderLine.setLineNumber(DEFAULT_LINE_NUMBER);
-        tpvOrderLine.setQty(DEFAULT_QTY);
+        final Discount discount = discountRepository.saveAndFlush(
+            new Discount()
+                .setActiveFrom(LocalDate.now().minusDays(1))
+                .setActiveTo(LocalDate.now().plusDays(1))
+                .setCode("discount001")
+                .setDescription("discount001")
+                .setUnits(2)
+                .setValue(50f)
+        );
+
+
+        final Price price = priceRepository.saveAndFlush(new Price().setValue(120f));
+
+        final Product product = productRepository.saveAndFlush(
+            new Product()
+                .setCode("1111111111111")
+                .setDescription("Product001")
+                .setName("Product001")
+                .setPrice(price)
+        );
+
+        tpvOrderLine = new TpvOrderLine()
+            .setLineNumber(DEFAULT_LINE_NUMBER)
+            .setQty(DEFAULT_QTY)
+            .setProduct(product)
+            .setPrice(product.getPrice());
     }
 
     @Test
