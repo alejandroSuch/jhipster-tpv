@@ -1,6 +1,7 @@
 package such.alex.tpv.service;
 
 import such.alex.tpv.domain.Discount;
+import such.alex.tpv.domain.Product;
 import such.alex.tpv.repository.DiscountRepository;
 import such.alex.tpv.repository.search.DiscountSearchRepository;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,13 +26,13 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class DiscountService {
 
     private final Logger log = LoggerFactory.getLogger(DiscountService.class);
-    
+
     @Inject
     private DiscountRepository discountRepository;
-    
+
     @Inject
     private DiscountSearchRepository discountSearchRepository;
-    
+
     /**
      * Save a discount.
      * @return the persisted entity
@@ -46,7 +48,7 @@ public class DiscountService {
      *  get all the discounts.
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<Discount> findAll() {
         log.debug("Request to get all Discounts");
         List<Discount> result = discountRepository.findAll();
@@ -57,7 +59,7 @@ public class DiscountService {
      *  get one discount by id.
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Discount findOne(Long id) {
         log.debug("Request to get Discount : {}", id);
         Discount discount = discountRepository.findOne(id);
@@ -77,12 +79,16 @@ public class DiscountService {
      * search for the discount corresponding
      * to the query.
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<Discount> search(String query) {
-        
+
         log.debug("REST request to search Discounts for query {}", query);
         return StreamSupport
             .stream(discountSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
+    }
+
+    public Discount getActiveDiscountForProduct(Product p) {
+        return discountRepository.findOneActiveForProductAndDate(p, LocalDate.now());
     }
 }
