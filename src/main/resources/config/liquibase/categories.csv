@@ -1,0 +1,11 @@
+id;name;description;vat_id;parent_id
+1;Cine, TV y Música;Cine, TV y Música;1;NULL
+2;Series TV;Series TV;NULL;1
+3;DVD;DVD;NULL;2
+4;Blu-Ray;Blu-Ray;NULL;2
+5;Material escolar;Material escolar;2;NULL
+6;Libros;Libros;NULL;5
+7;Cuadernos;Cuadernos;NULL;5
+8;Alimentación;Alimentación;2;NULL
+9;Café, té y bebidas;Café, té y bebidas;NULL;8
+10;Primera necesidad;Primera necesidad;3;8

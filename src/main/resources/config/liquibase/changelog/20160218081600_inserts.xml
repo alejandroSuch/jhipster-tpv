@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1" author="alejandro">
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/vats.csv"
+                  separator=";"
+                  tableName="vat">
+            <column name="id" type="numeric"/>
+            <column name="code"/>
+            <column name="description"/>
+            <column name="value" type="numeric"/>
+            <column name="active" type="boolean"/>
+            <column name="active_from" type="date"/>
+            <column name="active_to" type="date"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="2" author="alejandro">
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/categories.csv"
+                  separator=";"
+                  tableName="category">
+            <column name="id" type="numeric"/>
+            <column name="name"/>
+            <column name="description"/>
+            <column name="vat_id" type="numeric"/>
+            <column name="parent_id" type="numeric"/>
+        </loadData>
+    </changeSet>
+
+    <!--<changeSet id"3" author="alejandro">
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/categories.csv"
+                  separator=";"
+                  tableName="category"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/vats.csv"
+                  separator=";"
+                  tableName="vat"/>
+    </changeSet>-->
+
+</databaseChangeLog>
