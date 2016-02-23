@@ -66,14 +66,25 @@ public class TpvDiscountedOrderLine extends TpvOrderLine {
 
     @Override
     @Transient
-    public Float getTotal() {
-        final Discount discount = getDiscount();
+    public Float getSubtotal() {
+        final Float price = getPrice().getValue();
+        final int unitsToApplyDiscount = Math.round(getDiscount().getUnits() % getQty());
+        final int unitsNotToApplyDiscount = this.getQty() - unitsToApplyDiscount;
 
-        if(discount == null) {
-            return super.getTotal();
-        }
+        final Float discountValue = getDiscount().getValue() / 100;
+        return
+            (price * unitsNotToApplyDiscount) +
+            ((1 - discountValue) * price * unitsToApplyDiscount);
+    }
 
-        int unitsToApplyDiscount = Math.round(discount.getUnits() % getQty());
-        return getPrice().getValue() * getQty();
+    @Override
+    @Transient
+    public String getDescription() {
+        return new StringBuilder()
+            .append(this.getProduct().getName())
+            .append(" (")
+            .append(this.getDiscount().getCode())
+            .append(")")
+            .toString();
     }
 }

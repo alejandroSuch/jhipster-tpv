@@ -104,4 +104,37 @@ public class TpvOrder implements Serializable {
             ", dateCreated='" + dateCreated + "'" +
             '}';
     }
+
+    @Transient
+    public float getSubtotal() {
+        float result = 0f;
+
+        for (TpvOrderLine line : lines) {
+            result+= line.getSubtotal();
+        }
+
+        return result;
+    }
+
+    @Transient
+    public Float getTotal() {
+        float result = 0f;
+
+        for (TpvOrderLine line : lines) {
+            result+= line.getTotal();
+        }
+
+        return result;
+    }
+
+    @Transient
+    public Float getTaxValue() {
+        float result = 0f;
+
+        for (TpvOrderLine line : lines) {
+            result+= line.getTaxValue();
+        }
+
+        return result;
+    }
 }

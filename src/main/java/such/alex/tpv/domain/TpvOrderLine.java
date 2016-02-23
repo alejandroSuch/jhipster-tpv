@@ -134,15 +134,6 @@ public class TpvOrderLine implements Serializable {
         return this;
     }
 
-    @Transient
-    public Float getTotal() {
-        if(getPrice() == null || getQty() == null) {
-            return null;
-        }
-
-        return getPrice().getValue() * getQty();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -170,5 +161,25 @@ public class TpvOrderLine implements Serializable {
             ", lineNumber='" + lineNumber + "'" +
             ", qty='" + qty + "'" +
             '}';
+    }
+
+    @Transient
+    public Float getSubtotal() {
+        return this.price.getValue() * this.qty;
+    }
+
+    @Transient
+    public Float getTotal() {
+        return this.getSubtotal() * (1 + this.getVat().getValue());
+    }
+
+    @Transient
+    public Float getTaxValue() {
+        return this.getTotal() - this.getSubtotal();
+    }
+
+    @Transient
+    public String getDescription() {
+        return this.getProduct().getName();
     }
 }
