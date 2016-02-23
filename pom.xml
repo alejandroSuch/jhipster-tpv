@@ -349,16 +349,7 @@
             <version>2.0.7.RELEASE</version>
         </dependency>
 
-        <!-- <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-            <version>${reactor-bus.version}</version>
-        </dependency>
         <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-bus</artifactId>
-            <version>${reactor-bus.version}</version>
-        </dependency> -->
     </dependencies>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
