@@ -1,7 +1,6 @@
 package such.alex.tpv.invoice;
 
 import com.itextpdf.text.DocumentException;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -9,6 +8,7 @@ import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import such.alex.tpv.domain.TpvOrder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -27,7 +27,7 @@ public class PDFInvoiceBuilder {
 
         ITextRenderer renderer = new ITextRenderer();
 
-        ByteOutputStream os = new ByteOutputStream();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
         renderer.setDocumentFromString(htmlContent);
         renderer.layout();
         try {
@@ -38,8 +38,12 @@ public class PDFInvoiceBuilder {
             e.printStackTrace();
         }
 
-        byte[] pdfAsBytes = os.getBytes();
-        os.close();
+        byte[] pdfAsBytes = os.toByteArray();
+        try {
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return pdfAsBytes;
     }
