@@ -1,29 +1,30 @@
 package such.alex.tpv.web.rest;
 
-import such.alex.tpv.Application;
-import such.alex.tpv.domain.*;
-import such.alex.tpv.repository.DiscountRepository;
-import such.alex.tpv.repository.PriceRepository;
-import such.alex.tpv.repository.ProductRepository;
-import such.alex.tpv.repository.TpvOrderLineRepository;
-import such.alex.tpv.service.TpvOrderLineService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import such.alex.tpv.Application;
+import such.alex.tpv.domain.Discount;
+import such.alex.tpv.domain.Price;
+import such.alex.tpv.domain.Product;
+import such.alex.tpv.domain.TpvOrderLine;
+import such.alex.tpv.repository.DiscountRepository;
+import such.alex.tpv.repository.PriceRepository;
+import such.alex.tpv.repository.ProductRepository;
+import such.alex.tpv.repository.TpvOrderLineRepository;
+import such.alex.tpv.service.TpvOrderLineService;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -31,6 +32,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
