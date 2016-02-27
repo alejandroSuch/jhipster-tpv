@@ -32,16 +32,58 @@
         </loadData>
     </changeSet>
 
-    <!--<changeSet id"3" author="alejandro">
+    <changeSet id="3" author="alejandro">
         <loadData encoding="UTF-8"
-                  file="config/liquibase/categories.csv"
+                  file="config/liquibase/prices.csv"
                   separator=";"
-                  tableName="category"/>
+                  tableName="price">
+            <column name="id" type="numeric"/>
+            <column name="value" type="numeric"/>
+            <column name="active" type="boolean"/>
+            <column name="active_from" type="date"/>
+        </loadData>
+    </changeSet>
 
+    <changeSet id="4" author="alejandro">
         <loadData encoding="UTF-8"
-                  file="config/liquibase/vats.csv"
+                  file="config/liquibase/products.csv"
                   separator=";"
-                  tableName="vat"/>
-    </changeSet>-->
+                  tableName="product">
+            <column name="id" type="numeric"/>
+            <column name="active" type="boolean"/>
+            <column name="active_from" type="date"/>
+            <column name="active_to" type="date"/>
+            <column name="code"/>
+            <column name="name"/>
+            <column name="description"/>
+            <column name="price_id" type="numeric"/>
+            <column name="category_id" type="numeric"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="5" author="alejandro">
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/discounts.csv"
+                  separator=";"
+                  tableName="discount">
+            <column name="id" type="numeric"/>
+            <column name="code"/>
+            <column name="description"/>
+            <column name="value" type="numeric"/>
+            <column name="units" type="numeric"/>
+            <column name="active_from" type="date"/>
+            <column name="active_to" type="date"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="6" author="alejandro">
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/products_discounts.csv"
+                  separator=";"
+                  tableName="product_discount">
+            <column name="discounts_id" type="numeric"/>
+            <column name="products_id" type="numeric"/>
+        </loadData>
+    </changeSet>
 
 </databaseChangeLog>

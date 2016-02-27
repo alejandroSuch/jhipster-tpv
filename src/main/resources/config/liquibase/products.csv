@@ -1,0 +1,13 @@
+id;active;active_from;active_to;name;description;code;price_id;category_id
+1;1;2016-02-01;NULL;La Patrulla Canina;Temporada 1;8414906845290;1;3
+2;1;2016-02-01;NULL;Érase una vez el cuerpo humano;Serie completa;8435153723872;2;3
+3;1;2016-02-01;NULL;El ministerio del Tiempo;Temporada 1;8421394404120;3;4
+4;1;2016-02-01;NULL;Juego de Tronos;Temporada 5;5051893227857;4;4
+5;1;2016-02-01;NULL;Geografía e Historia;2º ESO;9788468011844;5;6
+6;1;2016-02-01;NULL;Matemáticas 2;2º ESO;9788467802238;6;6
+7;1;2016-02-01;NULL;Cuaderno espiral;Cuadrovía;8412742102348;7;7
+8;1;2016-02-01;NULL;Cuaderno tipo folio;Lamela;8412742537300;8;7
+9;1;2016-02-01;NULL;Cocacola 33 cl.;Pack 12;5449000055200;9;9
+10;1;2016-02-01;NULL;Cerveza Mahou Clásica;Lata 33 cl.;8411327022019;10;9
+11;1;2016-02-01;NULL;Pan rústico;Barra;8437010351280;11;10
+12;1;2016-02-01;NULL;Pan gallego;Barra;8437010351280;12;10

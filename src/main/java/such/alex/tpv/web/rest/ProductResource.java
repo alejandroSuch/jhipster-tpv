@@ -34,10 +34,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class ProductResource {
 
     private final Logger log = LoggerFactory.getLogger(ProductResource.class);
-        
+
     @Inject
     private ProductService productService;
-    
+
     /**
      * POST  /products -> Create a new product.
      */
@@ -84,7 +84,7 @@ public class ProductResource {
     public ResponseEntity<List<Product>> getAllProducts(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Products");
-        Page<Product> page = productService.findAll(pageable); 
+        Page<Product> page = productService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -130,5 +130,18 @@ public class ProductResource {
     public List<Product> searchProducts(@PathVariable String query) {
         log.debug("Request to search Products for query {}", query);
         return productService.search(query);
+    }
+
+    /**
+     * SEARCH  /_search/products/:query -> search for the product corresponding
+     * to the query.
+     */
+    @RequestMapping(value = "/products/ean/{ean}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public Product searchProductsByEAN13(@PathVariable String ean) {
+        log.debug("Request to search Products for query {}", ean);
+        return productService.findByCode(ean);
     }
 }
