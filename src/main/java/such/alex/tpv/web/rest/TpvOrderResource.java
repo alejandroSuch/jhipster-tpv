@@ -1,7 +1,9 @@
 package such.alex.tpv.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import such.alex.tpv.domain.Product;
 import such.alex.tpv.domain.TpvOrder;
+import such.alex.tpv.service.ProductService;
 import such.alex.tpv.service.TpvOrderService;
 import such.alex.tpv.web.rest.util.HeaderUtil;
 import such.alex.tpv.web.rest.util.PaginationUtil;
@@ -34,16 +36,19 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class TpvOrderResource {
 
     private final Logger log = LoggerFactory.getLogger(TpvOrderResource.class);
-        
+
     @Inject
     private TpvOrderService tpvOrderService;
-    
+
+    @Inject
+    private ProductService productService;
+
     /**
      * POST  /tpvOrders -> Create a new tpvOrder.
      */
     @RequestMapping(value = "/tpvOrders",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<TpvOrder> createTpvOrder(@Valid @RequestBody TpvOrder tpvOrder) throws URISyntaxException {
         log.debug("REST request to save TpvOrder : {}", tpvOrder);
@@ -52,16 +57,16 @@ public class TpvOrderResource {
         }
         TpvOrder result = tpvOrderService.save(tpvOrder);
         return ResponseEntity.created(new URI("/api/tpvOrders/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("tpvOrder", result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert("tpvOrder", result.getId().toString()))
+                .body(result);
     }
 
     /**
      * PUT  /tpvOrders -> Updates an existing tpvOrder.
      */
     @RequestMapping(value = "/tpvOrders",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<TpvOrder> updateTpvOrder(@Valid @RequestBody TpvOrder tpvOrder) throws URISyntaxException {
         log.debug("REST request to update TpvOrder : {}", tpvOrder);
@@ -70,21 +75,21 @@ public class TpvOrderResource {
         }
         TpvOrder result = tpvOrderService.save(tpvOrder);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("tpvOrder", tpvOrder.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert("tpvOrder", tpvOrder.getId().toString()))
+                .body(result);
     }
 
     /**
      * GET  /tpvOrders -> get all the tpvOrders.
      */
     @RequestMapping(value = "/tpvOrders",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<TpvOrder>> getAllTpvOrders(Pageable pageable)
-        throws URISyntaxException {
+            throws URISyntaxException {
         log.debug("REST request to get a page of TpvOrders");
-        Page<TpvOrder> page = tpvOrderService.findAll(pageable); 
+        Page<TpvOrder> page = tpvOrderService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tpvOrders");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -93,25 +98,25 @@ public class TpvOrderResource {
      * GET  /tpvOrders/:id -> get the "id" tpvOrder.
      */
     @RequestMapping(value = "/tpvOrders/{id}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<TpvOrder> getTpvOrder(@PathVariable Long id) {
         log.debug("REST request to get TpvOrder : {}", id);
         TpvOrder tpvOrder = tpvOrderService.findOne(id);
         return Optional.ofNullable(tpvOrder)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(result -> new ResponseEntity<>(
+                        result,
+                        HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
      * DELETE  /tpvOrders/:id -> delete the "id" tpvOrder.
      */
     @RequestMapping(value = "/tpvOrders/{id}",
-        method = RequestMethod.DELETE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Void> deleteTpvOrder(@PathVariable Long id) {
         log.debug("REST request to delete TpvOrder : {}", id);
@@ -124,11 +129,31 @@ public class TpvOrderResource {
      * to the query.
      */
     @RequestMapping(value = "/_search/tpvOrders/{query:.+}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<TpvOrder> searchTpvOrders(@PathVariable String query) {
         log.debug("Request to search TpvOrders for query {}", query);
         return tpvOrderService.search(query);
+    }
+
+    @RequestMapping(value = "/tpvOrders/{orderId}/product/{productId}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<TpvOrder> addProduct(@PathVariable Long orderId, @PathVariable Long productId) {
+        final TpvOrder tpvOrder = tpvOrderService.addProduct(orderId, productId);
+
+        return new ResponseEntity<>(tpvOrder, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/tpvOrders/{orderId}/product/{productId}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<TpvOrder> removePRoduct(@PathVariable Long orderId, @PathVariable Long productId) {
+        final TpvOrder tpvOrder = tpvOrderService.addProduct(orderId, productId);
+
+        return new ResponseEntity<>(tpvOrder, HttpStatus.OK);
     }
 }
