@@ -42,6 +42,9 @@ public class TpvOrderService {
     @Inject
     private TpvOrderLineRepository tpvOrderLineRepository;
 
+    @Inject
+    ProductService productService;
+
     /**
      * Save a tpvOrder.
      *
@@ -114,6 +117,21 @@ public class TpvOrderService {
         state.handlePrev(order);
     }
 
+    public TpvOrder addProduct(Long orderId, Long productId) {
+        final TpvOrder order = this.findOne(orderId);
+        final Product product = productService.findOne(productId);
+
+        if(order == null) {
+            throw new NullPointerException("Order not found");
+        }
+
+        if(product == null) {
+            throw new NullPointerException("Product not found");
+        }
+
+        return this.addProduct(order, product);
+    }
+
     public TpvOrder addProduct(TpvOrder order, Product product) {
         if (OrderState.COMPLETE.equals(order.getState())) {
             throw new TpvOrderException("Cannot perform this action on complete orders");
@@ -128,6 +146,21 @@ public class TpvOrderService {
         }
 
         return this.save(order);
+    }
+
+    public TpvOrder removeProduct(Long orderId, Long productId) {
+        final TpvOrder order = this.findOne(orderId);
+        final Product product = productService.findOne(productId);
+
+        if(order == null) {
+            throw new NullPointerException("Order not found");
+        }
+
+        if(product == null) {
+            throw new NullPointerException("Product not found");
+        }
+
+        return this.removeProduct(order, product);
     }
 
     public TpvOrder removeProduct(TpvOrder order, Product product) {
