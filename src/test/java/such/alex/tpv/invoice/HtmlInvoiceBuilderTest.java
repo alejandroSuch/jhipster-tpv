@@ -11,6 +11,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import such.alex.tpv.Application;
 import such.alex.tpv.domain.*;
+import such.alex.tpv.invoice.impl.HtmlInvoiceBuilder;
+import such.alex.tpv.invoice.impl.PdfInvoiceBuilder;
 import such.alex.tpv.repository.*;
 import such.alex.tpv.service.TpvOrderService;
 
@@ -28,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @WebAppConfiguration
 @IntegrationTest
 @Transactional
-public class HTMLInvoiceBuilderTest {
+public class HtmlInvoiceBuilderTest {
     @Inject
     DiscountRepository discountRepository;
 
@@ -51,10 +53,10 @@ public class HTMLInvoiceBuilderTest {
     private TpvOrderService tpvOrderService;
 
     @Inject
-    private HTMLInvoiceBuilder htmlInvoiceBuilder;
+    private HtmlInvoiceBuilder htmlInvoiceBuilder;
 
     @Inject
-    private PDFInvoiceBuilder pdfInvoiceBuilder;
+    private PdfInvoiceBuilder pdfInvoiceBuilder;
 
     private TpvOrder order;
 
@@ -135,7 +137,7 @@ public class HTMLInvoiceBuilderTest {
 
     @Test
     public void generatesAnHTMLDocument() {
-        final String invoice = htmlInvoiceBuilder.getInvoice(order);
+        final String invoice = new String(htmlInvoiceBuilder.getInvoice(order));
         assertThat(invoice).isNotNull();
     }
 
