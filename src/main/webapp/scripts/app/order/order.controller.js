@@ -37,7 +37,7 @@ angular.module('tpvApp')
         function onSearchFinish() {
             $scope.searching = false;
             $scope.ean = null;
-            
+
             setTimeout(function(){
                 $('#ean').focus();console.log('!!!');
             });
