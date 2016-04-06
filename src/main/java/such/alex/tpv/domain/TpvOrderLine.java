@@ -1,5 +1,6 @@
 package such.alex.tpv.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ public class TpvOrderLine implements Serializable {
     @Column(name = "qty", nullable = false)
     private Integer qty;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "tpv_order_id")
     private TpvOrder tpvOrder;

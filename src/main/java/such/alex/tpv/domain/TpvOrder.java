@@ -1,5 +1,6 @@
 package such.alex.tpv.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.elasticsearch.annotations.Document;
 import such.alex.tpv.state.order.OrderState;
 
@@ -29,6 +30,7 @@ public class TpvOrder implements Serializable {
     @Column(name = "date_created", nullable = false)
     private ZonedDateTime dateCreated;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "tpvOrder", cascade = CascadeType.ALL)
     private Collection<TpvOrderLine> lines;
 
