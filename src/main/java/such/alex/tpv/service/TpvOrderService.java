@@ -53,7 +53,7 @@ public class TpvOrderService {
     public TpvOrder save(TpvOrder tpvOrder) {
         log.debug("Request to save TpvOrder : {}", tpvOrder);
         TpvOrder result = tpvOrderRepository.save(tpvOrder);
-        tpvOrderSearchRepository.save(result);
+        //tpvOrderSearchRepository.save(result);
         return result;
     }
 
@@ -223,7 +223,8 @@ public class TpvOrderService {
                 product
                     .getCategory()
                     .getVat()
-            );
+            )
+            .setTpvOrder(order);
 
         order.getLines().add(line);
     }
