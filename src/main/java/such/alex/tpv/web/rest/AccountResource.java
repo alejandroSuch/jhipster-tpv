@@ -1,7 +1,13 @@
 package such.alex.tpv.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import such.alex.tpv.domain.Authority;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import such.alex.tpv.domain.User;
 import such.alex.tpv.repository.UserRepository;
 import such.alex.tpv.security.SecurityUtils;
@@ -11,20 +17,10 @@ import such.alex.tpv.web.rest.dto.KeyAndPasswordDTO;
 import such.alex.tpv.web.rest.dto.UserDTO;
 import such.alex.tpv.web.rest.util.HeaderUtil;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
+import java.util.Optional;
 
 /**
  * REST controller for managing the current user's account.

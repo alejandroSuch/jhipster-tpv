@@ -34,10 +34,10 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class TpvOrderLineResource {
 
     private final Logger log = LoggerFactory.getLogger(TpvOrderLineResource.class);
-        
+
     @Inject
     private TpvOrderLineService tpvOrderLineService;
-    
+
     /**
      * POST  /tpvOrderLines -> Create a new tpvOrderLine.
      */
@@ -84,7 +84,7 @@ public class TpvOrderLineResource {
     public ResponseEntity<List<TpvOrderLine>> getAllTpvOrderLines(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of TpvOrderLines");
-        Page<TpvOrderLine> page = tpvOrderLineService.findAll(pageable); 
+        Page<TpvOrderLine> page = tpvOrderLineService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tpvOrderLines");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
