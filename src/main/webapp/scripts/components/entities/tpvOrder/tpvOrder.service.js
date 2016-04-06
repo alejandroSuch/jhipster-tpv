@@ -12,6 +12,8 @@ angular.module('tpvApp')
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT'},
+            'lines': { method: 'GET', isArray: true, url: 'api/tpvOrders/:id/lines'},
+            'new': { method: 'POST', isArray: false, url: 'api/tpvOrders/new'}
         });
     });

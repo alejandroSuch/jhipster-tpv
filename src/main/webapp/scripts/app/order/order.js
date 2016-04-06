@@ -10,13 +10,12 @@ angular.module('tpvApp')
                 data: {
                     authorities: ['ROLE_USER'],
                     pageTitle: 'Order'
-                },
-
+                }
             })
             .state('order.new', {
                 url: '/new',
                 onEnter: function (TpvOrder, $state) {
-                    TpvOrder.save({id: null}, onSaveSuccess, onSaveError);
+                    TpvOrder.new({}, onSaveSuccess, onSaveError);
 
                     function onSaveSuccess(result) {
                         debugger;
@@ -32,8 +31,11 @@ angular.module('tpvApp')
             .state('order.manage', {
                 url: '/manage/:id',
                 resolve: {
-                    entity: ['$stateParams', 'TpvOrder', function ($stateParams, TpvOrder) {
-                        return TpvOrder.get({id: $stateParams.id});
+                    order: ['$stateParams', 'TpvOrder', function ($stateParams, TpvOrder) {
+                        return TpvOrder.get({id: $stateParams.id}).$promise;
+                    }],
+                    lines: ['$stateParams', 'TpvOrder', function ($stateParams, TpvOrder) {
+                        return TpvOrder.lines({id: $stateParams.id}).$promise;
                     }]
                 },
                 views: {

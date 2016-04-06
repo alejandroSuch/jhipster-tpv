@@ -1,17 +1,18 @@
 'use strict';
 
 angular.module('tpvApp')
-    .controller('OrderController', function ($scope, $state, entity, TpvOrder, ProductSearchByEan, OrderService) {
-        $scope.order = entity;
+    .controller('OrderController', function ($scope, order, lines, ProductSearchByEan, OrderService) {
+        $scope.order = order;
+        $scope.time = (lines == null || lines.length === 0) ? null : (new Date()).getTime();
 
-        function onSearchSuccess(product){
-            if(!product.id) {
+        function onSearchSuccess(product) {
+            if (!product.id) {
                 onSearchError();
                 return;
             }
 
             var pathVariables = {
-                orderId: entity.id,
+                orderId: order.id,
                 productId: product.id
             };
 
@@ -22,10 +23,10 @@ angular.module('tpvApp')
 
         function onProductAddedToOrder(order) {
             $scope.order = order;
-            debugger;
+            $scope.time = (new Date()).getTime();
         }
 
-        function onSearchError(){
+        function onSearchError() {
             $scope.$emit('tpvApp.httpError', {
                 data: {
                     message: 'Product not added to cart'
@@ -33,19 +34,22 @@ angular.module('tpvApp')
             });
         };
 
-        function onSearchFinish(){
+        function onSearchFinish() {
             $scope.searching = false;
             $scope.ean = null;
+            
+            setTimeout(function(){
+                $('#ean').focus();console.log('!!!');
+            });
         };
 
 
-
-        $scope.search = function(ean) {
-            if(!!ean && ean.length == 13) {
+        $scope.search = function (ean) {
+            if (!!ean && ean.length == 13) {
                 $scope.searching = true;
 
                 ProductSearchByEan
-                    .get({ean:ean})
+                    .get({ean: ean})
                     .$promise
                     .then(onSearchSuccess)
                     .then(onProductAddedToOrder)

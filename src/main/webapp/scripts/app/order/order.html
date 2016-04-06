@@ -1,42 +1,28 @@
+<h2>Manage Order</h2>
 <div>
-    <h2>Manage Order</h2>
     <jh-alert-error></jh-alert-error>
     <div class="container-fluid">
-        <div class="row vdivide">
-            <div class="col-xs-12 col-sm-6">
+        <div class="row">
+            <div class="col-xs-12">
                 <form>
                     <div class="form-group">
-                        <input type="text"
+                        <input id="ean"
+                               type="text"
                                class="form-control input-lg"
                                placeholder="EAN-13 Barcode"
-                               ng-model="isbn"
-                               ng-change="search(isbn)"
+                               autocomplete="off"
+                               autofocus
+
+                               ng-model="ean"
+                               ng-change="search(ean)"
                                ng-disabled="searching"
                         />
                     </div>
-                    8414906845290
                 </form>
             </div>
-            <div class="col-xs-12 col-sm-6">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th translate="entity.detail.field">Field</th>
-                            <th translate="entity.detail.value">Value</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <span translate="tpvApp.tpvOrder.dateCreated">DateCreated</span>
-                            </td>
-                            <td>
-                                <span class="form-control-static">{{tpvOrder.dateCreated | date:'medium'}}</span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <div class="col-xs-12">
+                <div ng-if="!!time">
+                    <div ng-include="'/invoice/view/html/' + order.id + '?time=' + time"></div>
                 </div>
             </div>
         </div>
