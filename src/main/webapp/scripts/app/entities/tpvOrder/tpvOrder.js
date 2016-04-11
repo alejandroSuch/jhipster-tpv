@@ -25,27 +25,22 @@ angular.module('tpvApp')
                 }
             })
             .state('tpvOrder.detail', {
-                parent: 'entity',
+                parent: 'tpvOrder',
                 url: '/tpvOrder/{id}',
                 data: {
                     authorities: ['ROLE_USER'],
                     pageTitle: 'tpvApp.tpvOrder.detail.title'
                 },
-                views: {
-                    'content@': {
-                        templateUrl: 'scripts/app/entities/tpvOrder/tpvOrder-detail.html',
-                        controller: 'TpvOrderDetailController'
-                    }
-                },
-                resolve: {
-                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('tpvOrder');
-                        return $translate.refresh();
-                    }],
-                    entity: ['$stateParams', 'TpvOrder', function($stateParams, TpvOrder) {
-                        return TpvOrder.get({id : $stateParams.id});
-                    }]
-                }
+                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        template: '<iframe style="width: 100%; height: '+ ($(window).height()-60)+'px;" src="/invoice/view/pdf/'+ $stateParams.id + '?timeStamp=' + (new Date()).getTime() + '"></iframe>',
+                        size: 'lg'
+                    }).result.then(function(result) {
+                        $state.go('tpvOrder', null, { reload: false });
+                    }, function() {
+                        $state.go('tpvOrder', null, { reload: false });
+                    })
+                }]
             })
             .state('tpvOrder.new', {
                 parent: 'tpvOrder',

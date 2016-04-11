@@ -30,10 +30,4 @@ public enum OrderState {
     public void handlePrev(TpvOrder order) {
         this.handlePrevFn.apply(order);
     }
-
-    private static class OrderStateFunctions {
-
-
-
-    }
 }

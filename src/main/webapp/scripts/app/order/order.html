@@ -6,24 +6,58 @@
             <div class="col-xs-12">
                 <form>
                     <div class="form-group">
-                        <input id="ean"
-                               type="text"
-                               class="form-control input-lg"
-                               placeholder="EAN-13 Barcode"
-                               autocomplete="off"
-                               autofocus
+                        <div class="input-group">
+                            <input id="ean"
+                                   type="text"
+                                   class="form-control input-lg"
+                                   placeholder="EAN-13 Barcode"
+                                   autocomplete="off"
+                                   autofocus
 
-                               ng-model="ean"
-                               ng-change="search(ean)"
-                               ng-disabled="searching"
-                        />
+                                   ng-model="ean"
+                                   ng-change="search(ean)"
+                                   ng-disabled="searching || order.state === 'COMPLETE'"
+                            />
+                            <span class="input-group-btn">
+                            <a class="btn btn-default btn-lg"
+                               type="button"
+                               ng-click="repeatLastAction()"
+                               ng-disabled="searching || order.state === 'COMPLETE'"
+                            >
+                                <i class="glyphicon glyphicon-repeat"></i>
+                            </a>
+                          </span>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="col-xs-12">
-                <div ng-if="!!time">
-                    <div ng-include="'/invoice/view/html/' + order.id + '?time=' + time"></div>
+                <div class="btn-group btn-group-justified" role="group">
+                    <a type="button"
+                       class="btn btn-default btn-lg"
+                       ng-class="{active:add}"
+                       ng-click="add=true"
+                       ng-disabled="order.state === 'COMPLETE'"
+                    >Add</a>
+                    <a type="button"
+                       class="btn btn-default btn-lg"
+                       ng-class="{active:!add}"
+                       ng-click="add=false"
+                       ng-disabled="order.state === 'COMPLETE'"
+                    >Remove</a>
                 </div>
+            </div>
+            <div class="col-xs-12">
+                <div ng-if="!!time">
+                    <div ng-include="'/invoice/view/html/' + order.id + '?timeStamp=' + time"></div>
+                </div>
+            </div>
+            <div class="col-xs-12" ng-if="order.state === 'READY_TO_COMPLETE'">
+                <button
+                    type="button"
+                    class="btn btn-primary btn-lg btn-block"
+                    ng-click="completeOrder()"
+                >Complete order</button>
             </div>
         </div>
     </div>

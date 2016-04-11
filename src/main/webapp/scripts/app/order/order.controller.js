@@ -1,24 +1,38 @@
 'use strict';
 
 angular.module('tpvApp')
-    .controller('OrderController', function ($scope, order, lines, ProductSearchByEan, OrderService) {
+    .controller('OrderController', function ($scope, $state, order, lines, ProductSearchByEan, OrderService, $q) {
+        var lastProduct = null;
+
         $scope.order = order;
         $scope.time = (lines == null || lines.length === 0) ? null : (new Date()).getTime();
+        $scope.add = true;
 
-        function onSearchSuccess(product) {
-            if (!product.id) {
-                onSearchError();
-                return;
-            }
+        function addOrRemoveProduct(product) {
+            lastProduct = product;
 
             var pathVariables = {
                 orderId: order.id,
                 productId: product.id
             };
 
-            return OrderService(pathVariables)
-                .add({})
-                .$promise;
+            if ($scope.add) {
+                return OrderService(pathVariables)
+                    .add({})
+                    .$promise;
+            } else {
+                return OrderService(pathVariables)
+                    .remove({})
+                    .$promise;
+            }
+        }
+
+        function onSearchSuccess(product) {
+            if (!product.id) {
+                return $q.reject(null);
+            }
+
+            return addOrRemoveProduct(product);
         };
 
         function onProductAddedToOrder(order) {
@@ -34,15 +48,14 @@ angular.module('tpvApp')
             });
         };
 
-        function onSearchFinish() {
+        function onFinish() {
             $scope.searching = false;
             $scope.ean = null;
 
-            setTimeout(function(){
-                $('#ean').focus();console.log('!!!');
+            setTimeout(function () {
+                $('#ean').focus();
             });
         };
-
 
         $scope.search = function (ean) {
             if (!!ean && ean.length == 13) {
@@ -54,9 +67,29 @@ angular.module('tpvApp')
                     .then(onSearchSuccess)
                     .then(onProductAddedToOrder)
                     .catch(onSearchError)
-                    .finally(onSearchFinish);
+                    .finally(onFinish);
             }
         }
 
+        $scope.repeatLastAction = function () {
+            if(!lastProduct) {
+                return;
+            }
+
+            addOrRemoveProduct(lastProduct)
+                .then(onProductAddedToOrder)
+                .catch(onSearchError)
+                .finally(onFinish);
+        };
+
+        $scope.completeOrder = function () {
+            OrderService({orderId: order.id})
+                .nextState({})
+                .$promise
+                .then(function(result){
+                    $state.go('tpvOrder');
+                })
+                .finally(onFinish);
+        }
 
     });

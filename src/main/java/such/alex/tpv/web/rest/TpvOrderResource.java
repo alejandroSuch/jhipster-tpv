@@ -188,11 +188,21 @@ public class TpvOrderResource {
     }
 
     @RequestMapping(value = "/tpvOrders/{orderId}/product/{productId}",
-            method = RequestMethod.DELETE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<TpvOrder> removeProduct(@PathVariable Long orderId, @PathVariable Long productId) {
-        final TpvOrder tpvOrder = tpvOrderService.addProduct(orderId, productId);
+        final TpvOrder tpvOrder = tpvOrderService.removeProduct(orderId, productId);
+
+        return new ResponseEntity<>(tpvOrder, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/tpvOrders/{orderId}/next-state",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<TpvOrder> handleNextState(@PathVariable Long orderId) {
+        final TpvOrder tpvOrder = tpvOrderService.handleNextState(orderId);
 
         return new ResponseEntity<>(tpvOrder, HttpStatus.OK);
     }

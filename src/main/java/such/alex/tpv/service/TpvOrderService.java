@@ -107,9 +107,21 @@ public class TpvOrderService {
         return new TpvOrder();
     }
 
+    public TpvOrder handleNextState(Long orderId) {
+        final TpvOrder order = this.findOne(orderId);
+        this.handleNextState(order);
+        return this.save(order);
+    }
+
     public void handleNextState(TpvOrder order) {
         OrderState state = order.getState();
         state.handleNext(order);
+    }
+
+    public TpvOrder handlePrevState(Long orderId) {
+        final TpvOrder order = this.findOne(orderId);
+        this.handlePrevState(order);
+        return this.save(order);
     }
 
     public void handlePrevState(TpvOrder order) {
