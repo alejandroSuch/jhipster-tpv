@@ -53,10 +53,10 @@ public class HtmlInvoiceBuilderTest {
     private TpvOrderService tpvOrderService;
 
     @Inject
-    private HtmlInvoiceBuilder htmlInvoiceBuilder;
+    InvoiceBuilder htmlInvoiceBuilder;
 
     @Inject
-    private PdfInvoiceBuilder pdfInvoiceBuilder;
+    InvoiceBuilder pdfInvoiceBuilder;
 
     private TpvOrder order;
 
