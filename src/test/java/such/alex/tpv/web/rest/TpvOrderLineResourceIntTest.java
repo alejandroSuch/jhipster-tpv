@@ -16,14 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import such.alex.tpv.Application;
-import such.alex.tpv.domain.Discount;
-import such.alex.tpv.domain.Price;
-import such.alex.tpv.domain.Product;
-import such.alex.tpv.domain.TpvOrderLine;
-import such.alex.tpv.repository.DiscountRepository;
-import such.alex.tpv.repository.PriceRepository;
-import such.alex.tpv.repository.ProductRepository;
-import such.alex.tpv.repository.TpvOrderLineRepository;
+import such.alex.tpv.domain.*;
+import such.alex.tpv.repository.*;
 import such.alex.tpv.service.TpvOrderLineService;
 
 import javax.annotation.PostConstruct;
@@ -78,6 +72,9 @@ public class TpvOrderLineResourceIntTest {
     PriceRepository priceRepository;
 
     @Inject
+    VatRepository vatRepository;
+
+    @Inject
     ProductRepository productRepository;
 
     @PostConstruct
@@ -104,6 +101,7 @@ public class TpvOrderLineResourceIntTest {
 
 
         final Price price = priceRepository.saveAndFlush(new Price().setValue(120f));
+        final Vat vat = vatRepository.saveAndFlush(new Vat().setCode("theVAT").setDescription("theVAT").setValue(0.2f));
 
         final Product product = productRepository.saveAndFlush(
             new Product()
@@ -117,6 +115,7 @@ public class TpvOrderLineResourceIntTest {
             .setLineNumber(DEFAULT_LINE_NUMBER)
             .setQty(DEFAULT_QTY)
             .setProduct(product)
+            .setVat(vat)
             .setPrice(product.getPrice());
     }
 

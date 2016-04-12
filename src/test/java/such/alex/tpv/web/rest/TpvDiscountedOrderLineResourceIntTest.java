@@ -1,14 +1,8 @@
 package such.alex.tpv.web.rest;
 
 import such.alex.tpv.Application;
-import such.alex.tpv.domain.Discount;
-import such.alex.tpv.domain.Price;
-import such.alex.tpv.domain.Product;
-import such.alex.tpv.domain.TpvDiscountedOrderLine;
-import such.alex.tpv.repository.DiscountRepository;
-import such.alex.tpv.repository.PriceRepository;
-import such.alex.tpv.repository.ProductRepository;
-import such.alex.tpv.repository.TpvDiscountedOrderLineRepository;
+import such.alex.tpv.domain.*;
+import such.alex.tpv.repository.*;
 import such.alex.tpv.service.TpvDiscountedOrderLineService;
 
 import org.junit.Before;
@@ -75,6 +69,9 @@ public class TpvDiscountedOrderLineResourceIntTest {
     PriceRepository priceRepository;
 
     @Inject
+    VatRepository vatRepository;
+
+    @Inject
     ProductRepository productRepository;
 
 
@@ -103,6 +100,8 @@ public class TpvDiscountedOrderLineResourceIntTest {
 
         final Price price = priceRepository.saveAndFlush(new Price().setValue(120f));
 
+        final Vat vat = vatRepository.saveAndFlush(new Vat().setCode("theVAT").setDescription("theVAT").setValue(0.2f));
+
         final Product product = productRepository.saveAndFlush(
             new Product()
                 .setCode("1111111111111")
@@ -114,6 +113,7 @@ public class TpvDiscountedOrderLineResourceIntTest {
         tpvDiscountedOrderLine = (TpvDiscountedOrderLine) new TpvDiscountedOrderLine()
             .setDiscount(discount)
             .setProduct(product)
+            .setVat(vat)
             .setPrice(product.getPrice())
             .setLineNumber(1)
             .setQty(1);
