@@ -18,14 +18,12 @@ angular.module('tpvApp')
                     TpvOrder.new({}, onSaveSuccess, onSaveError);
 
                     function onSaveSuccess(result) {
-                        debugger;
                         $state.go('order.manage', {id: result.id});
-                    };
+                    }
 
                     function onSaveError() {
-                        debugger;
                         alert('No se ha podido inicializar el pedido')
-                    };
+                    }
                 }
             })
             .state('order.manage', {
