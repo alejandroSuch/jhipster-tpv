@@ -74,7 +74,7 @@ public class TpvDiscountedOrderLine extends TpvOrderLine {
         final Float discountValue = getDiscount().getValue() / 100;
         return
             (price * unitsNotToApplyDiscount) +
-            ((1 - discountValue) * price * unitsToApplyDiscount);
+            (discountValue * price * unitsToApplyDiscount);
     }
 
     @Override
